@@ -7,23 +7,23 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="SpeakUP -USALI-" />
 <meta name="theme-color" content="#0b0f1a" />
-
 <title>SpeakUP -USALI-</title>
 
 <style>
 :root{
   --bg:#0b0f1a;
   --text:#ffffff;
-  --muted:rgba(255,255,255,.78);
+  --muted:rgba(255,255,255,.75);
   --glass:rgba(255,255,255,.08);
   --glass2:rgba(255,255,255,.06);
   --border:rgba(255,255,255,.16);
   --shadow:0 18px 60px rgba(0,0,0,.45);
   --radius:20px;
+  --ease:cubic-bezier(.2,.9,.2,1);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-
+html,body{height:100%}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   color:var(--text);
@@ -31,35 +31,22 @@ body{
   overflow:hidden;
 }
 
-/* ===== Dimension-like Background (Option A) ===== */
+/* ===== Background ===== */
 #bg{
-  position:fixed;
-  inset:0;
-  z-index:-3;
-  background-image:url("bg.jpg");
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
+  position:fixed; inset:0; z-index:-3;
+  background:url("bg.jpg") center/cover no-repeat;
   transform:scale(1.05);
   filter:saturate(.9) contrast(1.05);
 }
-
-/* dark overlay */
 #bg::before{
-  content:"";
-  position:absolute;
-  inset:0;
+  content:""; position:absolute; inset:0;
   background:
     linear-gradient(180deg, rgba(8,10,18,.62), rgba(8,10,18,.86)),
     radial-gradient(900px 600px at 20% 20%, rgba(255,255,255,.05), transparent 60%),
     radial-gradient(900px 600px at 80% 70%, rgba(255,255,255,.04), transparent 60%);
 }
-
-/* color glow + vignette */
 #bg::after{
-  content:"";
-  position:absolute;
-  inset:0;
+  content:""; position:absolute; inset:0;
   background:
     radial-gradient(900px 600px at 18% 22%, rgba(110,231,255,.12), transparent 60%),
     radial-gradient(900px 600px at 78% 68%, rgba(124,255,166,.10), transparent 60%),
@@ -67,31 +54,21 @@ body{
   mix-blend-mode:screen;
   opacity:.60;
 }
-
-/* noise texture */
 body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-2;
-  pointer-events:none;
+  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
   opacity:.07;
   mix-blend-mode:overlay;
 }
 
-/* ===== Layout ===== */
+/* ===== Center Intro Card ===== */
 .wrapper{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
   padding:24px;
 }
-
-.panel{
-  width:min(940px, 100%);
+.panelIntro{
+  width:min(980px, 100%);
   border-radius:var(--radius);
   border:1px solid var(--border);
   background:linear-gradient(180deg, var(--glass), var(--glass2));
@@ -100,52 +77,27 @@ body::before{
   box-shadow:var(--shadow);
   padding:56px 56px 46px;
   text-align:center;
-  animation:fadeUp .9s ease both;
-}
 
+  transition:transform .55s var(--ease), opacity .55s var(--ease), filter .55s var(--ease);
+}
 .brand{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  margin-bottom:18px;
-  opacity:.95;
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:12px; opacity:.95;
 }
-
 .badge{
-  width:42px;
-  height:42px;
+  width:42px; height:42px;
   border-radius:999px;
   border:1px solid var(--border);
   background:rgba(255,255,255,.06);
-  display:grid;
-  place-items:center;
-  font-weight:900;
-  letter-spacing:.8px;
+  display:grid; place-items:center;
+  font-weight:900; letter-spacing:.8px;
 }
-
-h1{
-  font-size:44px;
-  letter-spacing:3px;
-  font-weight:900;
-}
-
-.sub{
-  margin-top:10px;
-  font-size:14px;
-  letter-spacing:.5px;
-  color:var(--muted);
-  line-height:1.5;
-}
-
+h1{font-size:44px; letter-spacing:3px; font-weight:900}
+.sub{margin-top:10px; font-size:14px; letter-spacing:.5px; color:var(--muted)}
 .ctaRow{
   margin-top:26px;
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:wrap;
+  display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
 }
-
 .btn{
   appearance:none;
   border:1px solid var(--border);
@@ -158,31 +110,141 @@ h1{
   cursor:pointer;
   transition:transform .15s ease, background .25s ease, border-color .25s ease;
 }
+.btn:hover{ background:rgba(255,255,255,.13); border-color:rgba(255,255,255,.24); }
+.btn:active{ transform:translateY(1px); }
+.btnPrimary{ background:linear-gradient(90deg, rgba(110,231,255,.22), rgba(124,255,166,.18)); }
 
-.btn:hover{
-  background:rgba(255,255,255,.13);
-  border-color:rgba(255,255,255,.24);
+body.isModalOpen .panelIntro{
+  opacity:.18;
+  filter:blur(6px);
+  transform:scale(.985);
+  pointer-events:none;
 }
 
-.btn:active{
-  transform:translateY(1px);
+/* ===== Dimension-like Modal Panels ===== */
+.modal{
+  position:fixed; inset:0;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .35s var(--ease);
+}
+.modal::before{
+  content:"";
+  position:absolute; inset:0;
+  background:rgba(0,0,0,.45);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.modal.open{
+  opacity:1;
+  pointer-events:auto;
+}
+.modalCard{
+  position:relative;
+  width:min(980px, 100%);
+  max-height: calc(100vh - 80px);
+  overflow:auto;
+
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+  box-shadow:0 24px 80px rgba(0,0,0,.55);
+  padding:18px 18px 18px;
+
+  transform:translateY(18px) scale(.985);
+  opacity:0;
+  transition:transform .45s var(--ease), opacity .45s var(--ease);
+}
+.modal.open .modalCard{
+  transform:translateY(0) scale(1);
+  opacity:1;
 }
 
-.btnPrimary{
-  background:linear-gradient(90deg, rgba(110,231,255,.22), rgba(124,255,166,.18));
+.modalHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:6px 4px 12px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.modalHeader h2{
+  font-size:14px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  opacity:.9;
+}
+.iconBtn{
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  border-radius:12px;
+  width:40px; height:40px;
+  display:grid; place-items:center;
+  cursor:pointer;
+  transition:.2s;
+}
+.iconBtn:hover{ background:rgba(255,255,255,.12); }
+.iconBtn:active{ transform:translateY(1px); }
+
+.section{
+  padding:16px 6px 6px;
+}
+.small{
+  color:rgba(255,255,255,.75);
+  font-size:13px;
+  line-height:1.55;
+}
+.kpiBox{
+  margin-top:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.18);
+  border-radius:14px;
+  padding:14px;
+}
+.mono{
+  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  white-space:pre-wrap;
+  line-height:1.5;
+  color:rgba(255,255,255,.9);
+}
+.row{
+  display:flex; gap:10px; flex-wrap:wrap;
+  margin-top:12px;
+}
+.btnWide{
+  flex:1 1 220px;
+  padding:14px 14px;
+  border-radius:14px;
 }
 
-/* smooth entrance */
-@keyframes fadeUp{
-  from{ opacity:0; transform:translateY(18px); }
-  to{ opacity:1; transform:translateY(0); }
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.72);
+  border:1px solid rgba(255,255,255,.12);
+  color:#fff;
+  padding:10px 12px;
+  border-radius:999px;
+  font-size:12px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease;
 }
+.toast.show{opacity:1}
 
 /* Mobile */
 @media (max-width:720px){
-  .panel{ padding:38px 22px 30px; }
+  .panelIntro{ padding:38px 22px 30px; }
   h1{ font-size:30px; letter-spacing:2px; }
   .badge{ width:38px; height:38px; }
+  .modalCard{ padding:14px; }
 }
 </style>
 </head>
@@ -190,8 +252,9 @@ h1{
 <body>
   <div id="bg" aria-hidden="true"></div>
 
+  <!-- Intro -->
   <div class="wrapper">
-    <div class="panel">
+    <div class="panelIntro">
       <div class="brand">
         <div class="badge">U</div>
         <div>
@@ -201,11 +264,204 @@ h1{
       </div>
 
       <div class="ctaRow">
-        <button class="btn btnPrimary" onclick="alert('START (next: 40 topics)')">START</button>
-        <button class="btn" onclick="alert('HISTORY (next)')">HISTORY</button>
-        <button class="btn" onclick="alert('SETTINGS (next)')">SETTINGS</button>
+        <button class="btn btnPrimary" data-open="practice">START</button>
+        <button class="btn" data-open="history">HISTORY</button>
+        <button class="btn" data-open="settings">SETTINGS</button>
       </div>
     </div>
   </div>
+
+  <!-- Modal: Practice -->
+  <div class="modal" id="modal-practice" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="ttl-practice">
+      <div class="modalHeader">
+        <h2 id="ttl-practice">Practice</h2>
+        <button class="iconBtn" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="section">
+        <div class="small">
+          ここに “今日のTopic” と 4問、キーワード、ChatGPTへ投げるボタンを載せる（次ステップ）。
+          まずはダミー表示で動作確認。
+        </div>
+
+        <div class="kpiBox">
+          <div class="mono" id="practiceText"></div>
+        </div>
+
+        <div class="row">
+          <button class="btn btnPrimary btnWide" id="openChatBtn">Open ChatGPT with Prompt</button>
+          <button class="btn btnWide" id="copyPromptBtn">Copy Prompt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: History -->
+  <div class="modal" id="modal-history" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="ttl-history">
+      <div class="modalHeader">
+        <h2 id="ttl-history">History</h2>
+        <button class="iconBtn" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="section">
+        <div class="small">次に localStorage で「直近20件」を入れる。今はダミー。</div>
+        <div class="kpiBox">
+          <div class="mono">- No history yet.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Settings -->
+  <div class="modal" id="modal-settings" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="ttl-settings">
+      <div class="modalHeader">
+        <h2 id="ttl-settings">Settings</h2>
+        <button class="iconBtn" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="section">
+        <div class="small">次に「リセット」「Topic手動選択」などを追加。今はダミー。</div>
+        <div class="kpiBox">
+          <div class="mono">- Coming soon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/* ===== Toast ===== */
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"), 1200);
+}
+
+/* ===== Dimension-like modal control ===== */
+let openModalId = null;
+
+function openModal(id){
+  const m = document.getElementById(id);
+  if(!m) return;
+  closeModal(); // close any existing
+  openModalId = id;
+  document.body.classList.add("isModalOpen");
+  m.classList.add("open");
+  m.setAttribute("aria-hidden","false");
+}
+function closeModal(){
+  if(!openModalId) return;
+  const m = document.getElementById(openModalId);
+  if(m){
+    m.classList.remove("open");
+    m.setAttribute("aria-hidden","true");
+  }
+  openModalId = null;
+  document.body.classList.remove("isModalOpen");
+}
+
+/* Close by clicking background */
+document.querySelectorAll(".modal").forEach(m=>{
+  m.addEventListener("click",(e)=>{
+    if(e.target === m) closeModal();
+  });
+});
+
+/* Close buttons */
+document.querySelectorAll("[data-close]").forEach(btn=>{
+  btn.addEventListener("click", closeModal);
+});
+
+/* ESC to close */
+window.addEventListener("keydown",(e)=>{
+  if(e.key === "Escape") closeModal();
+});
+
+/* Open buttons */
+document.querySelectorAll("[data-open]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const v = btn.getAttribute("data-open");
+    openModal("modal-" + v);
+  });
+});
+
+/* ===== (Dummy) Prompt builder ===== */
+const DUMMY_TOPIC = {
+  title: "USALI: Rooms Revenue vs ADR & OCC",
+  prompts: [
+    "How do you explain rooms revenue variance using ADR and occupancy?",
+    "Which costs move with volume and impact flow-through?",
+    "What is one action to protect rate integrity this month?",
+    "What data checks do you run before reporting?"
+  ],
+  keywords: ["USALI", "ADR", "Occupancy", "Flow-through", "CPOR", "Rate integrity"]
+};
+
+function buildPrompt(){
+  const t = DUMMY_TOPIC;
+  const lines = [];
+  lines.push("Let's practice English speaking.");
+  lines.push("");
+  lines.push("Today's topic: " + t.title);
+  lines.push("");
+  lines.push("Rules: Ask me the questions one by one. After each answer, correct my English briefly and suggest a more natural alternative.");
+  lines.push("");
+  lines.push("Questions:");
+  t.prompts.forEach((q,i)=>lines.push((i+1)+") "+q));
+  lines.push("");
+  lines.push("Keywords to try using: " + t.keywords.join(", "));
+  lines.push("");
+  lines.push("Start with question 1.");
+  return lines.join("\n");
+}
+
+function renderPractice(){
+  const prompt = buildPrompt();
+  document.getElementById("practiceText").textContent = prompt;
+}
+
+function openChatGPTWithPrompt(prompt){
+  const url = "https://chatgpt.com/?prompt=" + encodeURIComponent(prompt);
+  window.open(url, "_blank");
+}
+
+/* Hook: when practice modal opens, render */
+const practiceModal = document.getElementById("modal-practice");
+const observer = new MutationObserver(()=> {
+  if(practiceModal.classList.contains("open")){
+    renderPractice();
+  }
+});
+observer.observe(practiceModal, { attributes:true, attributeFilter:["class"] });
+
+/* Buttons */
+document.getElementById("openChatBtn").addEventListener("click", ()=>{
+  const p = buildPrompt();
+  openChatGPTWithPrompt(p);
+  toast("ChatGPTを開きました");
+});
+document.getElementById("copyPromptBtn").addEventListener("click", async ()=>{
+  const p = buildPrompt();
+  try{
+    if(navigator.clipboard?.writeText){
+      await navigator.clipboard.writeText(p);
+      toast("コピーしました");
+    }else{
+      throw new Error("clipboard unavailable");
+    }
+  }catch(_){
+    // fallback
+    const ta = document.createElement("textarea");
+    ta.value = p;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    toast("コピーしました");
+  }
+});
+</script>
 </body>
 </html>
