@@ -1,328 +1,523 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="SpeakUP -USALI-" />
-<meta name="theme-color" content="#0b0f1a" />
-<title>SpeakUP -USALI-</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SpeakUP -USALI-" />
+  <meta name="theme-color" content="#0b1220" />
 
-<style>
-:root{
-  --bg:#0b0f1a;
-  --text:#ffffff;
-  --muted:rgba(255,255,255,.75);
-  --glass:rgba(255,255,255,.08);
-  --glass2:rgba(255,255,255,.06);
-  --border:rgba(255,255,255,.16);
-  --shadow:0 18px 60px rgba(0,0,0,.45);
-  --radius:20px;
-  --ease:cubic-bezier(.2,.9,.2,1);
-}
+  <title>SpeakUP -USALI-</title>
 
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  color:var(--text);
-  background:var(--bg);
-  overflow:hidden;
-}
+  <style>
+    :root{
+      --bg:#0b1220;
+      --text:#f3f6ff;
+      --muted:rgba(245,248,255,.72);
+      --line:rgba(255,255,255,.12);
+      --glass:rgba(18,22,30,.48);
+      --glass2:rgba(18,22,30,.32);
+      --shadow:0 18px 70px rgba(0,0,0,.55);
+      --shadow2:0 10px 36px rgba(0,0,0,.38);
+      --radius:22px;
+      --radius2:16px;
+      --ease:cubic-bezier(.2,.8,.2,1);
+      --accent1:rgba(129,140,248,.22);
+      --accent2:rgba(56,189,248,.18);
+      --accent3:rgba(74,222,128,.14);
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      background: #060911;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      overflow-x:hidden;
+    }
 
-/* ===== Background ===== */
-#bg{
-  position:fixed; inset:0; z-index:-3;
-  background:url("bg.jpg") center/cover no-repeat;
-  transform:scale(1.05);
-  filter:saturate(.9) contrast(1.05);
-}
-#bg::before{
-  content:""; position:absolute; inset:0;
-  background:
-    linear-gradient(180deg, rgba(8,10,18,.62), rgba(8,10,18,.86)),
-    radial-gradient(900px 600px at 20% 20%, rgba(255,255,255,.05), transparent 60%),
-    radial-gradient(900px 600px at 80% 70%, rgba(255,255,255,.04), transparent 60%);
-}
-#bg::after{
-  content:""; position:absolute; inset:0;
-  background:
-    radial-gradient(900px 600px at 18% 22%, rgba(110,231,255,.12), transparent 60%),
-    radial-gradient(900px 600px at 78% 68%, rgba(124,255,166,.10), transparent 60%),
-    radial-gradient(1400px 900px at 50% 50%, rgba(0,0,0,.55), rgba(0,0,0,.88));
-  mix-blend-mode:screen;
-  opacity:.60;
-}
-body::before{
-  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-  opacity:.07;
-  mix-blend-mode:overlay;
-}
+    /* Background (bg.jpg in same folder) */
+    .bg{
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(1200px 800px at 50% 35%, rgba(255,255,255,.08), transparent 55%),
+        linear-gradient(180deg, rgba(8,10,16,.35), rgba(8,10,16,.78)),
+        url("bg.jpg") center / cover no-repeat;
+      filter:saturate(1.06) contrast(1.03);
+      transform: translateZ(0);
+    }
+    .bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(900px 700px at 20% 20%, rgba(99,102,241,.14), transparent 55%),
+        radial-gradient(900px 700px at 85% 30%, rgba(56,189,248,.12), transparent 60%),
+        radial-gradient(900px 700px at 70% 85%, rgba(74,222,128,.08), transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.35));
+      mix-blend-mode: screen;
+      pointer-events:none;
+    }
 
-/* ===== Center Intro Card ===== */
-.wrapper{
-  position:fixed; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  padding:24px;
-}
-.panelIntro{
-  width:min(980px, 100%);
-  border-radius:var(--radius);
-  border:1px solid var(--border);
-  background:linear-gradient(180deg, var(--glass), var(--glass2));
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  box-shadow:var(--shadow);
-  padding:56px 56px 46px;
-  text-align:center;
+    /* Subtle grid */
+    .grid{
+      position:fixed;
+      inset:-2px;
+      background-image:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 140px 140px;
+      opacity:.22;
+      mask-image: radial-gradient(900px 700px at 50% 45%, rgba(0,0,0,1), transparent 72%);
+      pointer-events:none;
+    }
 
-  transition:transform .55s var(--ease), opacity .55s var(--ease), filter .55s var(--ease);
-}
-.brand{
-  display:inline-flex; align-items:center; justify-content:center;
-  gap:12px; opacity:.95;
-}
-.badge{
-  width:42px; height:42px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.06);
-  display:grid; place-items:center;
-  font-weight:900; letter-spacing:.8px;
-}
-h1{font-size:44px; letter-spacing:3px; font-weight:900}
-.sub{margin-top:10px; font-size:14px; letter-spacing:.5px; color:var(--muted)}
-.ctaRow{
-  margin-top:26px;
-  display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
-}
-.btn{
-  appearance:none;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.06);
-  color:var(--text);
-  padding:14px 22px;
-  border-radius:12px;
-  font-size:15px;
-  font-weight:800;
-  cursor:pointer;
-  transition:transform .15s ease, background .25s ease, border-color .25s ease;
-}
-.btn:hover{ background:rgba(255,255,255,.13); border-color:rgba(255,255,255,.24); }
-.btn:active{ transform:translateY(1px); }
-.btnPrimary{ background:linear-gradient(90deg, rgba(110,231,255,.22), rgba(124,255,166,.18)); }
+    /* Layout */
+    .wrap{
+      position:relative;
+      min-height:100%;
+      display:grid;
+      place-items:center;
+      padding:36px 16px;
+    }
 
-body.isModalOpen .panelIntro{
-  opacity:.18;
-  filter:blur(6px);
-  transform:scale(.985);
-  pointer-events:none;
-}
+    /* Center card */
+    .panel{
+      width:min(920px, 94vw);
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, var(--glass), var(--glass2));
+      border-radius:28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding:26px 22px;
+    }
 
-/* ===== Dimension-like Modal Panels ===== */
-.modal{
-  position:fixed; inset:0;
-  display:grid;
-  place-items:center;
-  padding:24px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .35s var(--ease);
-}
-.modal::before{
-  content:"";
-  position:absolute; inset:0;
-  background:rgba(0,0,0,.45);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-.modal.open{
-  opacity:1;
-  pointer-events:auto;
-}
-.modalCard{
-  position:relative;
-  width:min(980px, 100%);
-  max-height: calc(100vh - 80px);
-  overflow:auto;
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      margin-bottom:8px;
+      user-select:none;
+    }
+    .logo{
+      width:40px; height:40px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), rgba(255,255,255,.04));
+      display:grid;
+      place-items:center;
+      box-shadow: var(--shadow2);
+    }
+    .logo span{
+      font-weight:900;
+      letter-spacing:.6px;
+      opacity:.9;
+    }
 
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.18);
-  background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
-  box-shadow:0 24px 80px rgba(0,0,0,.55);
-  padding:18px 18px 18px;
+    .title{
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-weight:900;
+      letter-spacing:2.2px;
+      font-size: clamp(28px, 4vw, 46px);
+      margin:0;
+      text-align:center;
+      text-shadow: 0 10px 40px rgba(0,0,0,.45);
+    }
+    .subtitle{
+      margin:10px 0 0;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.28px;
+    }
 
-  transform:translateY(18px) scale(.985);
-  opacity:0;
-  transition:transform .45s var(--ease), opacity .45s var(--ease);
-}
-.modal.open .modalCard{
-  transform:translateY(0) scale(1);
-  opacity:1;
-}
+    .ruleline{
+      margin:18px auto 18px;
+      width:min(520px, 86%);
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+      opacity:.85;
+    }
 
-.modalHeader{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:6px 4px 12px;
-  border-bottom:1px solid rgba(255,255,255,.12);
-}
-.modalHeader h2{
-  font-size:14px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  opacity:.9;
-}
-.iconBtn{
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  border-radius:12px;
-  width:40px; height:40px;
-  display:grid; place-items:center;
-  cursor:pointer;
-  transition:.2s;
-}
-.iconBtn:hover{ background:rgba(255,255,255,.12); }
-.iconBtn:active{ transform:translateY(1px); }
+    .menu{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      padding:12px 18px;
+      border-radius:14px;
+      font-weight:800;
+      letter-spacing:.35px;
+      cursor:pointer;
+      min-width: 140px;
+      transition: transform .18s var(--ease), background .18s var(--ease);
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+    }
+    .btn:hover{ background: rgba(255,255,255,.07); transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0px) scale(.99); }
 
-.section{
-  padding:16px 6px 6px;
-}
-.small{
-  color:rgba(255,255,255,.75);
-  font-size:13px;
-  line-height:1.55;
-}
-.kpiBox{
-  margin-top:12px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.18);
-  border-radius:14px;
-  padding:14px;
-}
-.mono{
-  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size:12px;
-  white-space:pre-wrap;
-  line-height:1.5;
-  color:rgba(255,255,255,.9);
-}
-.row{
-  display:flex; gap:10px; flex-wrap:wrap;
-  margin-top:12px;
-}
-.btnWide{
-  flex:1 1 220px;
-  padding:14px 14px;
-  border-radius:14px;
-}
+    .hint{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(245,248,255,.62);
+      font-size:12px;
+    }
 
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:18px;
-  transform:translateX(-50%);
-  background:rgba(0,0,0,.72);
-  border:1px solid rgba(255,255,255,.12);
-  color:#fff;
-  padding:10px 12px;
-  border-radius:999px;
-  font-size:12px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .18s ease;
-}
-.toast.show{opacity:1}
+    /* Modal */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px 12px;
+      z-index:50;
+    }
+    .overlay.open{ display:flex; }
 
-/* Mobile */
-@media (max-width:720px){
-  .panelIntro{ padding:38px 22px 30px; }
-  h1{ font-size:30px; letter-spacing:2px; }
-  .badge{ width:38px; height:38px; }
-  .modalCard{ padding:14px; }
-}
-</style>
+    .modal{
+      width:min(980px, 96vw);
+      max-height:min(86vh, 860px);
+      overflow:hidden;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(18,22,30,.72), rgba(18,22,30,.46));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transform: translateY(14px) scale(.985);
+      opacity:0;
+      transition: transform .26s var(--ease), opacity .26s var(--ease);
+      display:flex;
+      flex-direction:column;
+    }
+    .overlay.open .modal{
+      transform: translateY(0px) scale(1);
+      opacity:1;
+    }
+
+    .modalHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .modalTitle{
+      font-weight:900;
+      letter-spacing:.5px;
+      font-size:14px;
+      opacity:.95;
+    }
+    .closeBtn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:800;
+      transition: background .18s var(--ease);
+    }
+    .closeBtn:hover{ background: rgba(255,255,255,.07); }
+
+    .modalBody{
+      padding:14px 16px 18px;
+      overflow:auto;
+    }
+
+    /* Pills */
+    .pillRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      padding:9px 12px;
+      border-radius:999px;
+      color:rgba(245,248,255,.78);
+      font-size:12px;
+      backdrop-filter: blur(10px);
+    }
+    .pill strong{ color:var(--text); font-weight:900; }
+
+    .pill select{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color:var(--text);
+      border-radius:999px;
+      padding:7px 10px;
+      outline:none;
+      font-weight:900;
+      appearance:none;
+      -webkit-appearance:none;
+    }
+
+    /* Cards */
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border-radius:18px;
+      padding:14px;
+      box-shadow: 0 12px 34px rgba(0,0,0,.28);
+      margin:12px 0;
+    }
+    .card h3{
+      margin:0 0 8px;
+      font-size:14px;
+      letter-spacing:.25px;
+    }
+    .small{
+      color:rgba(245,248,255,.68);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    /* Prompt box */
+    pre{
+      margin:10px 0 0;
+      white-space:pre-wrap;
+      word-break:break-word;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      padding:12px;
+      color:#e9eefc;
+      font-size:12px;
+      line-height:1.5;
+      overflow:auto;
+    }
+
+    .rowBtns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .btn2{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:13px;
+      transition: transform .18s var(--ease), background .18s var(--ease);
+    }
+    .btn2:hover{ background: rgba(255,255,255,.07); transform: translateY(-1px); }
+    .btn2:active{ transform: translateY(0px) scale(.99); }
+    .btnPrimary{
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      border-color: rgba(255,255,255,.18);
+    }
+
+    /* Keywords tags */
+    .tags{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .tag{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding:8px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.2px;
+      transition: background .18s var(--ease), transform .18s var(--ease);
+    }
+    .tag:hover{ background: rgba(255,255,255,.07); transform: translateY(-1px); }
+    .tag small{
+      font-weight:800;
+      color:rgba(245,248,255,.68);
+      margin-left:6px;
+    }
+
+    textarea{
+      width:100%;
+      min-height:200px;
+      resize:vertical;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      color:var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      line-height:1.45;
+      outline:none;
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:22px;
+      transform:translateX(-50%);
+      background:rgba(0,0,0,.74);
+      border:1px solid rgba(255,255,255,.12);
+      color:#fff;
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:12px;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease;
+      z-index:60;
+      max-width: 92vw;
+      text-align:center;
+    }
+    .toast.show{ opacity:1; }
+
+    /* Mobile tweaks */
+    @media (max-width:520px){
+      .btn{ min-width: 120px; padding:12px 14px; }
+      .panel{ padding:22px 16px; }
+      .pill{ font-size:11px; }
+    }
+  </style>
 </head>
 
 <body>
-  <div id="bg" aria-hidden="true"></div>
+  <div class="bg"></div>
+  <div class="grid"></div>
 
-  <!-- Intro -->
-  <div class="wrapper">
-    <div class="panelIntro">
+  <div class="wrap">
+    <div class="panel" role="application" aria-label="SpeakUP -USALI-">
       <div class="brand">
-        <div class="badge">U</div>
-        <div>
-          <h1>SpeakUP -USALI-</h1>
-          <div class="sub">Hospitality Finance English Training</div>
-        </div>
+        <div class="logo" aria-hidden="true"><span>u</span></div>
+        <h1 class="title">SpeakUP -USALI-</h1>
+      </div>
+      <p class="subtitle">Hospitality Finance English Training (USALI-focused)</p>
+      <div class="ruleline"></div>
+
+      <div class="menu">
+        <button class="btn" id="btnStart">START</button>
+        <button class="btn" id="btnHistory">HISTORY</button>
+        <button class="btn" id="btnSettings">SETTINGS</button>
       </div>
 
-      <div class="ctaRow">
-        <button class="btn btnPrimary" data-open="practice">START</button>
-        <button class="btn" data-open="history">HISTORY</button>
-        <button class="btn" data-open="settings">SETTINGS</button>
+      <div class="hint" id="homeHint">Daily topic rotates automatically. You can lock a topic in Settings.</div>
+    </div>
+  </div>
+
+  <!-- START Modal -->
+  <div class="overlay" id="ovStart" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="START">
+      <div class="modalHead">
+        <div class="modalTitle">START (Today)</div>
+        <button class="closeBtn" data-close="ovStart">Close</button>
+      </div>
+      <div class="modalBody">
+        <div class="pillRow">
+          <div class="pill">Status: <strong id="statusText">-</strong></div>
+          <div class="pill">Date: <strong id="dateText">-</strong></div>
+          <div class="pill">Topic: <strong id="topicNoText">-</strong></div>
+          <div class="pill" id="manualPill" style="display:none;">
+            Topic lock:
+            <select id="topicSelect" aria-label="Topic selector"></select>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Prompt</h3>
+          <div class="small">この文章をChatGPTに渡して「質問を1つずつ」進める。回答後に短く添削＆自然な言い換え。</div>
+          <pre id="promptBox"></pre>
+          <div class="rowBtns">
+            <button class="btn2 btnPrimary" id="openChatBtn">Open ChatGPT</button>
+            <button class="btn2" id="copyPromptBtn">Copy Prompt</button>
+            <button class="btn2" id="markUsedBtn">Mark as Used</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Keywords (tap to add to Notes)</h3>
+          <div class="small">タグを押すとNotesに追記される（復習用）。</div>
+          <div class="tags" id="kwTags"></div>
+        </div>
+
+        <div class="card">
+          <h3>Notes</h3>
+          <div class="small">自由メモ。コピーしてNotes/Notionへ。</div>
+          <textarea id="notesArea" placeholder="- keyword = 日本語訳&#10;uses: Example 1 / Example 2 / Example 3&#10;&#10;[Chat Memo]&#10;-"></textarea>
+          <div class="rowBtns">
+            <button class="btn2" id="copyNotesBtn">Copy Notes</button>
+            <button class="btn2" id="clearNotesBtn">Clear Notes</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Practice -->
-  <div class="modal" id="modal-practice" aria-hidden="true">
-    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="ttl-practice">
-      <div class="modalHeader">
-        <h2 id="ttl-practice">Practice</h2>
-        <button class="iconBtn" data-close aria-label="Close">✕</button>
+  <!-- HISTORY Modal -->
+  <div class="overlay" id="ovHistory" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="HISTORY">
+      <div class="modalHead">
+        <div class="modalTitle">HISTORY (Last 20)</div>
+        <button class="closeBtn" data-close="ovHistory">Close</button>
       </div>
-      <div class="section">
-        <div class="small">
-          ここに “今日のTopic” と 4問、キーワード、ChatGPTへ投げるボタンを載せる（次ステップ）。
-          まずはダミー表示で動作確認。
-        </div>
-
-        <div class="kpiBox">
-          <div class="mono" id="practiceText"></div>
-        </div>
-
-        <div class="row">
-          <button class="btn btnPrimary btnWide" id="openChatBtn">Open ChatGPT with Prompt</button>
-          <button class="btn btnWide" id="copyPromptBtn">Copy Prompt</button>
+      <div class="modalBody">
+        <div class="card">
+          <h3>History</h3>
+          <div class="small">端末内保存（localStorage）/ 直近20件</div>
+          <pre id="historyBox" style="margin-top:10px;"></pre>
+          <div class="rowBtns">
+            <button class="btn2" id="copyHistoryBtn">Copy History</button>
+            <button class="btn2" id="clearHistoryBtn">Clear History</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal: History -->
-  <div class="modal" id="modal-history" aria-hidden="true">
-    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="ttl-history">
-      <div class="modalHeader">
-        <h2 id="ttl-history">History</h2>
-        <button class="iconBtn" data-close aria-label="Close">✕</button>
+  <!-- SETTINGS Modal -->
+  <div class="overlay" id="ovSettings" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="SETTINGS">
+      <div class="modalHead">
+        <div class="modalTitle">SETTINGS</div>
+        <button class="closeBtn" data-close="ovSettings">Close</button>
       </div>
-      <div class="section">
-        <div class="small">次に localStorage で「直近20件」を入れる。今はダミー。</div>
-        <div class="kpiBox">
-          <div class="mono">- No history yet.</div>
+      <div class="modalBody">
+        <div class="card">
+          <h3>Topic Mode</h3>
+          <div class="small">Auto = 日替わり / Manual = Topic固定（今日だけ固定）</div>
+          <div class="rowBtns">
+            <button class="btn2" id="modeAutoBtn">Auto (Daily)</button>
+            <button class="btn2" id="modeManualBtn">Manual (Lock)</button>
+          </div>
+          <div class="small" style="margin-top:10px;">
+            Current mode: <strong id="modeText">-</strong>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modal: Settings -->
-  <div class="modal" id="modal-settings" aria-hidden="true">
-    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="ttl-settings">
-      <div class="modalHeader">
-        <h2 id="ttl-settings">Settings</h2>
-        <button class="iconBtn" data-close aria-label="Close">✕</button>
-      </div>
-      <div class="section">
-        <div class="small">次に「リセット」「Topic手動選択」などを追加。今はダミー。</div>
-        <div class="kpiBox">
-          <div class="mono">- Coming soon.</div>
+        <div class="card">
+          <h3>Data</h3>
+          <div class="small">Notes/Status/History/Topic lock を削除します。</div>
+          <div class="rowBtns">
+            <button class="btn2" id="resetAllBtn">Reset All (Danger)</button>
+          </div>
         </div>
       </div>
     </div>
@@ -331,136 +526,1518 @@ body.isModalOpen .panelIntro{
   <div class="toast" id="toast"></div>
 
 <script>
-/* ===== Toast ===== */
+/* =========================
+   SpeakUP -USALI-
+   40 Topics × (4 Questions)
+   ========================= */
+
+const TOPICS = [
+  {
+    title:"USALI Basics: Structure and Purpose",
+    guide:"USALIの目的と、P&Lの構造をシンプルな英語で説明する。",
+    prompts:[
+      "What is USALI, and why do hotels use it?",
+      "How is the USALI P&L structured at a high level?",
+      "What is the difference between Departmental Profit and GOP?",
+      "How do standard definitions help benchmarking across hotels?"
+    ],
+    keywords:[
+      {en:"USALI", ja:"ホテル会計の標準", uses:"USALI provides a common P&L structure. / USALI standardizes definitions across hotels."},
+      {en:"department", ja:"部門", uses:"Rooms is a key department. / Department results should be comparable."},
+      {en:"GOP", ja:"営業総利益", uses:"GOP improved versus budget. / GOP is impacted by undistributed expenses."},
+      {en:"benchmarking", ja:"比較分析", uses:"Benchmarking requires consistent definitions. / Benchmark against similar hotels."},
+      {en:"standardization", ja:"標準化", uses:"Standardization reduces confusion. / Standardization improves comparability."}
+    ]
+  },
+  {
+    title:"Revenue vs Profit: Common Misunderstandings",
+    guide:"売上が増えても利益が増えない理由を説明する。",
+    prompts:[
+      "Why can revenue increase while profit decreases?",
+      "Which costs usually rise with volume in hotels?",
+      "What is the simplest way to explain profit quality to non-finance teams?",
+      "What would you monitor weekly to protect profit, not just revenue?"
+    ],
+    keywords:[
+      {en:"profit quality", ja:"利益の質", uses:"Profit quality weakened due to channel mix. / Focus on quality, not only volume."},
+      {en:"variable cost", ja:"変動費", uses:"Variable costs rose with occupancy. / Track variable cost per unit."},
+      {en:"mix", ja:"ミックス", uses:"Mix shifted to lower-rated segments. / Mix changes affect margin."},
+      {en:"leverage", ja:"レバレッジ", uses:"We lost leverage due to cost creep. / Leverage improves when fixed costs are stable."},
+      {en:"early indicator", ja:"先行指標", uses:"Pickup is an early indicator. / CPOR can be an early indicator."}
+    ]
+  },
+  {
+    title:"Rooms Revenue Drivers: ADR, OCC, RevPAR",
+    guide:"客室売上の基本KPIを整理して会話する。",
+    prompts:[
+      "How do ADR and occupancy combine to create RevPAR?",
+      "Which KPI do you prioritize in soft demand, and why?",
+      "How do discounts affect ADR and long-term positioning?",
+      "What actions can protect ADR without killing occupancy?"
+    ],
+    keywords:[
+      {en:"ADR", ja:"平均客室単価", uses:"ADR declined due to discounting. / Protect ADR with fences."},
+      {en:"occupancy", ja:"稼働率", uses:"Occupancy improved on weekends. / Occupancy-led growth increases variable costs."},
+      {en:"RevPAR", ja:"RevPAR", uses:"RevPAR lagged the market. / RevPAR improved versus last month."},
+      {en:"positioning", ja:"ポジション", uses:"Positioning supports long-term pricing. / Keep positioning consistent."},
+      {en:"fence", ja:"条件設定", uses:"Add fences to protect rate. / Fences reduce abuse of discounts."}
+    ]
+  },
+  {
+    title:"Rooms Revenue Variance: Rate vs Volume Decomposition",
+    guide:"客室売上差異をRate effect / Volume effectで分解して説明する。",
+    prompts:[
+      "How would you decompose rooms revenue variance into rate and volume effects?",
+      "Which effect was larger this month, and what evidence supports it?",
+      "How do you use this decomposition to drive actions?",
+      "What data checks are needed before you present the decomposition?"
+    ],
+    keywords:[
+      {en:"decomposition", ja:"分解", uses:"Decomposition clarifies the drivers. / Use decomposition for rate vs volume."},
+      {en:"rate effect", ja:"価格差異", uses:"Rate effect was negative due to promotions. / Rate effect improved with better mix."},
+      {en:"volume effect", ja:"数量差異", uses:"Volume effect was positive due to group pickup. / Volume effect increased housekeeping cost."},
+      {en:"data check", ja:"データ検証", uses:"Run checks on room nights and ADR. / Confirm totals match the P&L."},
+      {en:"action planning", ja:"施策立案", uses:"Turn analysis into actions. / Assign owners and deadlines."}
+    ]
+  },
+  {
+    title:"Rooms Department Expenses: CPOR and Cost Controls",
+    guide:"客室の変動費をCPORで見て、対策を議論する。",
+    prompts:[
+      "What is CPOR, and why is it useful?",
+      "Which CPOR components moved the most this month?",
+      "How can you reduce CPOR without hurting guest experience?",
+      "What controls would you implement to prevent CPOR creep?"
+    ],
+    keywords:[
+      {en:"CPOR", ja:"販売客室数あたり変動費", uses:"CPOR increased due to linen and amenities. / CPOR is an early warning metric."},
+      {en:"linen", ja:"リネン", uses:"Linen cost rose per occupied room. / Control linen usage with SOPs."},
+      {en:"amenities", ja:"アメニティ", uses:"Amenity cost increased with higher usage. / Standardize amenity sets."},
+      {en:"productivity", ja:"生産性", uses:"Improve rooms cleaned per labor hour. / Productivity protects margins."},
+      {en:"control", ja:"統制", uses:"Implement controls and tracking. / Controls prevent cost leakage."}
+    ]
+  },
+  {
+    title:"Discounts, Coupons, and Rate Integrity (Net View)",
+    guide:"クーポン/値引きの影響をネット視点で説明する。",
+    prompts:[
+      "How do discounts and coupons affect rate integrity?",
+      "What is the net impact after commissions and fees?",
+      "How would you redesign promotions to protect ADR?",
+      "What approval rules would you set for future promotions?"
+    ],
+    keywords:[
+      {en:"rate integrity", ja:"レート整合性", uses:"Protect rate integrity to support positioning. / Deep discounts damage integrity."},
+      {en:"net ADR", ja:"純ADR", uses:"Net ADR fell after commissions. / Track net ADR by channel."},
+      {en:"dilution", ja:"希薄化", uses:"ADR dilution hurt rooms profit. / Prevent dilution with governance."},
+      {en:"governance", ja:"統制", uses:"Governance prevents random discounting. / Define approval rules."},
+      {en:"approval", ja:"承認", uses:"Approval is required for deep discounts. / Keep approvals fast but clear."}
+    ]
+  },
+  {
+    title:"Distribution Costs: OTA Commission and Reconciliation",
+    guide:"OTA手数料の照合と差異対応を会話する。",
+    prompts:[
+      "How do you reconcile OTA commissions and identify discrepancies?",
+      "Which channels have the highest distribution cost and why?",
+      "What controls prevent commission leakage or misclassification?",
+      "How do you report channel performance using net metrics?"
+    ],
+    keywords:[
+      {en:"reconciliation", ja:"照合", uses:"Reconciliation found a discrepancy. / Reconciliation prevents leakage."},
+      {en:"discrepancy", ja:"差異", uses:"We found a discrepancy in commission rates. / Quantify discrepancy impact."},
+      {en:"distribution cost", ja:"流通コスト", uses:"Distribution cost rose due to mix. / Track cost per booking."},
+      {en:"leakage", ja:"漏れ", uses:"Leakage happens via wrong mapping. / Add checks to prevent leakage."},
+      {en:"net revenue", ja:"純売上", uses:"Net revenue view changes priorities. / Use net metrics for decisions."}
+    ]
+  },
+  {
+    title:"Group vs Transient Mix: Profit Implications",
+    guide:"グループ比率の変化が利益に与える影響を説明する。",
+    prompts:[
+      "How did the group vs transient mix change this month?",
+      "What is the profit trade-off of group volume versus rate?",
+      "Which costs increase when group business increases?",
+      "How would you set mix targets for the next quarter?"
+    ],
+    keywords:[
+      {en:"transient", ja:"個人客", uses:"Transient ADR is higher in peak periods. / Transient demand is volatile."},
+      {en:"group", ja:"団体", uses:"Group business supports base occupancy. / Group can dilute rate if underpriced."},
+      {en:"trade-off", ja:"トレードオフ", uses:"There is a trade-off between volume and rate. / Trade-offs must be quantified."},
+      {en:"base occupancy", ja:"ベース稼働", uses:"Group builds base occupancy. / Base occupancy stabilizes forecasts."},
+      {en:"margin", ja:"利益率", uses:"Margin depends on net revenue and costs. / Protect margin with controls."}
+    ]
+  },
+  {
+    title:"Banquets: Function Space Yield and Booking Pace",
+    guide:"宴会のpaceとspace yieldを英語で話す。",
+    prompts:[
+      "How is booking pace trending for the next 90 days?",
+      "How do you measure function space yield and why does it matter?",
+      "Which event types have the best margin profile and why?",
+      "What actions improve conversion without heavy discounting?"
+    ],
+    keywords:[
+      {en:"booking pace", ja:"予約ペース", uses:"Booking pace is behind plan. / Track pace weekly."},
+      {en:"space yield", ja:"スペース収益性", uses:"Space yield improves with smarter blocks. / Yield matters more than volume."},
+      {en:"conversion rate", ja:"成約率", uses:"Conversion rate dropped due to pricing. / Improve conversion with packages."},
+      {en:"package", ja:"パッケージ", uses:"Packages can improve conversion. / Keep packages margin-safe."},
+      {en:"margin profile", ja:"利益特性", uses:"Weddings have a different margin profile. / Margin differs by event type."}
+    ]
+  },
+  {
+    title:"Banquet Labor: Outsourcing and Scheduling Controls",
+    guide:"宴会の人員配置と外注費のコントロールを会話する。",
+    prompts:[
+      "Why is banquet staffing often inconsistent, and what is the risk?",
+      "How do you decide when to use outsourcing versus in-house labor?",
+      "What KPIs help you manage banquet labor efficiently?",
+      "How do you prevent last-minute changes from blowing the budget?"
+    ],
+    keywords:[
+      {en:"outsourcing", ja:"外注", uses:"Outsourcing helps during peak demand. / Control outsourcing scope and vendors."},
+      {en:"flex staffing", ja:"柔軟人員", uses:"Flex staffing matches event scale. / Flex staffing requires planning."},
+      {en:"labor hours", ja:"労働時間", uses:"Labor hours exceeded plan. / Track hours per event."},
+      {en:"run sheet", ja:"運営表", uses:"Use a run sheet to reduce surprises. / Run sheets improve coordination."},
+      {en:"variance", ja:"差異", uses:"Explain the variance with facts. / Separate volume vs efficiency variance."}
+    ]
+  },
+  {
+    title:"Restaurant Performance: Covers, Check Average, Menu Mix",
+    guide:"レストランの売上構成を英語で説明する。",
+    prompts:[
+      "What drove restaurant revenue: covers or check average?",
+      "How did menu mix affect gross margin?",
+      "What menu engineering actions will you take next month?",
+      "How do you balance promotions with margin protection?"
+    ],
+    keywords:[
+      {en:"covers", ja:"客数", uses:"Covers declined midweek. / Covers drive staffing."},
+      {en:"check average", ja:"客単価", uses:"Check average improved due to upsell. / Track check average by outlet."},
+      {en:"menu mix", ja:"メニューミックス", uses:"Menu mix shifted to lower-margin items. / Improve mix with recommendations."},
+      {en:"menu engineering", ja:"メニュー最適化", uses:"Menu engineering focuses on high-margin items. / Redesign menu placement."},
+      {en:"gross margin", ja:"粗利", uses:"Gross margin improved after price changes. / Margin must be protected."}
+    ]
+  },
+  {
+    title:"F&B Cost: Food Cost, Beverage Cost, Waste Control",
+    guide:"料飲原価の上振れ要因と対策を会話する。",
+    prompts:[
+      "Why did food cost percentage increase this month?",
+      "How do waste and spoilage show up in the numbers?",
+      "What controls reduce waste without hurting service?",
+      "How do you separate price inflation from operational issues?"
+    ],
+    keywords:[
+      {en:"food cost", ja:"食材原価", uses:"Food cost rose due to waste. / Tighten food cost controls."},
+      {en:"beverage cost", ja:"飲料原価", uses:"Beverage cost improved with better purchasing. / Monitor pour cost."},
+      {en:"waste", ja:"廃棄", uses:"Waste increased due to low covers. / Track waste daily."},
+      {en:"spoilage", ja:"腐敗/ロス", uses:"Spoilage must be monitored. / Improve storage and rotation."},
+      {en:"inflation", ja:"物価上昇", uses:"Inflation impacted key ingredients. / Separate inflation from execution."}
+    ]
+  },
+  {
+    title:"Other Operated Departments: Spa, Parking, Retail",
+    guide:"Other Operated部門の管理ポイントを話す。",
+    prompts:[
+      "Which other operated departments are most material for this hotel?",
+      "How do you judge performance: revenue, contribution, or both?",
+      "What common issues cause profit leakage in these departments?",
+      "How would you set targets that teams can actually execute?"
+    ],
+    keywords:[
+      {en:"contribution", ja:"貢献（限界利益）", uses:"Contribution matters more than revenue. / Focus on contribution by outlet."},
+      {en:"profit leakage", ja:"利益漏れ", uses:"Leakage comes from weak controls. / Identify leakage drivers."},
+      {en:"material", ja:"重要度が高い", uses:"This line is material to profit. / Material items need attention."},
+      {en:"target setting", ja:"目標設定", uses:"Targets must be realistic. / Targets need owners."},
+      {en:"controls", ja:"統制", uses:"Controls reduce leakage. / Use simple controls and checklists."}
+    ]
+  },
+  {
+    title:"Undistributed Expenses: A&G vs S&M vs POM vs Utilities",
+    guide:"Undistributedの主要ブロックを説明する。",
+    prompts:[
+      "Which undistributed block drove the variance this month?",
+      "What is the difference between POM and Utilities in practice?",
+      "How do you separate one-time items from structural issues?",
+      "What actions would you reflect in the next forecast submission?"
+    ],
+    keywords:[
+      {en:"undistributed", ja:"非配賦費用", uses:"Undistributed expenses remained elevated. / Manage undistributed with discipline."},
+      {en:"POM", ja:"修繕・保全", uses:"POM included one-time repairs. / Improve visibility and planning."},
+      {en:"utilities", ja:"光熱費", uses:"Utilities increased due to consumption. / Normalize for weather."},
+      {en:"one-time", ja:"一過性", uses:"This cost is one-time, not structural. / Separate one-time items."},
+      {en:"structural", ja:"構造的", uses:"Structural issues require long-term fixes. / Stop structural cost creep."}
+    ]
+  },
+  {
+    title:"Utilities: Consumption vs Tariff vs Operating Hours",
+    guide:"光熱費を分解して説明する。",
+    prompts:[
+      "Is the utilities variance driven by consumption or tariff?",
+      "Which area (HVAC, kitchen, laundry) is the main driver and why?",
+      "What quick controls can you implement within two weeks?",
+      "How will you track savings and avoid rebound next month?"
+    ],
+    keywords:[
+      {en:"consumption", ja:"使用量", uses:"Consumption rose due to longer hours. / Reduce consumption without comfort loss."},
+      {en:"tariff", ja:"単価/料金", uses:"Tariff increased after contract changes. / Reflect tariff in forecasts."},
+      {en:"HVAC", ja:"空調", uses:"HVAC is the largest driver in summer. / Adjust setpoints carefully."},
+      {en:"baseline", ja:"基準値", uses:"Set a baseline to measure savings. / Baseline must be realistic."},
+      {en:"rebound", ja:"戻り", uses:"Prevent rebound after controls. / Monitor weekly to sustain savings."}
+    ]
+  },
+  {
+    title:"POM: Reactive vs Preventive Maintenance",
+    guide:"応急修繕と予防保全の考え方を話す。",
+    prompts:[
+      "How much POM spend was reactive versus preventive this month?",
+      "Which failures are repeating and what is the root cause?",
+      "What preventive plan reduces cost volatility over 90 days?",
+      "How do you communicate POM priorities to non-technical stakeholders?"
+    ],
+    keywords:[
+      {en:"reactive repair", ja:"応急修繕", uses:"Reactive repairs spiked after failure. / Reactive work is costly and disruptive."},
+      {en:"preventive maintenance", ja:"予防保全", uses:"Preventive maintenance stabilizes costs. / Plan and schedule preventive work."},
+      {en:"recurrence", ja:"再発", uses:"Recurrence indicates weak fixes. / Document recurrence and root causes."},
+      {en:"criticality", ja:"重要度", uses:"Critical assets get priority. / Use criticality to justify actions."},
+      {en:"volatility", ja:"変動", uses:"Volatility makes forecasting difficult. / Reduce volatility with planning."}
+    ]
+  },
+  {
+    title:"Labor: Productivity and Scheduling Discipline",
+    guide:"人件費を生産性で説明し、改善策を話す。",
+    prompts:[
+      "Where did labor hours exceed plan and why?",
+      "Which productivity KPIs do you use by department?",
+      "How do you use cross-training to increase flexibility?",
+      "What service metrics do you monitor to avoid guest impact?"
+    ],
+    keywords:[
+      {en:"productivity", ja:"生産性", uses:"Productivity improved after roster changes. / Productivity is key for margin."},
+      {en:"roster", ja:"シフト", uses:"Roster planning needs demand signals. / Roster discipline prevents overspend."},
+      {en:"cross-training", ja:"多能工", uses:"Cross-training improves flexibility. / Cross-training reduces overtime."},
+      {en:"overtime", ja:"残業", uses:"Overtime increased due to late events. / Set overtime controls."},
+      {en:"service level", ja:"サービス水準", uses:"Maintain service level while controlling cost. / Monitor complaints and NPS."}
+    ]
+  },
+  {
+    title:"Payroll vs Profit: Labor Investment Logic",
+    guide:"人件費投入が利益にどう効くか、説明する。",
+    prompts:[
+      "How does labor investment translate into profit by department?",
+      "Where are we over-investing relative to revenue opportunity?",
+      "Which KPIs indicate efficient staffing?",
+      "What changes improve profit without increasing headcount?"
+    ],
+    keywords:[
+      {en:"labor investment", ja:"人件費投資", uses:"Investment must follow demand. / Investment should increase output."},
+      {en:"efficiency", ja:"効率", uses:"Efficiency improved after process changes. / Measure efficiency with output KPIs."},
+      {en:"output", ja:"成果", uses:"Output per labor hour improved. / Output should justify staffing."},
+      {en:"headcount", ja:"人員数", uses:"Headcount is stable but hours increased. / Avoid headcount creep."},
+      {en:"KPI linkage", ja:"KPI連動", uses:"Link KPIs to payroll decisions. / KPI linkage supports planning."}
+    ]
+  },
+  {
+    title:"Controllable vs Uncontrollable: Ownership of Actions",
+    guide:"管理可能/不可抗力を分け、アクション責任を明確にする。",
+    prompts:[
+      "Which factors were uncontrollable, and how do you prove it?",
+      "Which factors are controllable, and what actions do you own?",
+      "How do you avoid excuses while staying realistic?",
+      "How do you document actions so they are executed?"
+    ],
+    keywords:[
+      {en:"controllable", ja:"管理可能", uses:"Focus on controllable actions. / Separate controllable from uncontrollable."},
+      {en:"uncontrollable", ja:"不可抗力", uses:"Weather is uncontrollable. / Use scenarios for uncontrollable risks."},
+      {en:"ownership", ja:"責任/オーナー", uses:"Assign ownership to each action. / Ownership ensures execution."},
+      {en:"evidence", ja:"根拠", uses:"Provide evidence, not opinions. / Evidence builds credibility."},
+      {en:"execution", ja:"実行", uses:"Execution must be tracked weekly. / Track owners and deadlines."}
+    ]
+  },
+  {
+    title:"GOP vs EBITDA: Explaining the Difference",
+    guide:"GOPとEBITDAの違いをシンプルに説明する。",
+    prompts:[
+      "What is included in GOP that is not included in departmental profit?",
+      "What is EBITDA, and how does it differ from GOP?",
+      "Why do owners care about both metrics?",
+      "How do you keep explanations simple for non-finance audiences?"
+    ],
+    keywords:[
+      {en:"departmental profit", ja:"部門利益", uses:"Departmental profit is before undistributed. / Compare departments consistently."},
+      {en:"undistributed", ja:"非配賦", uses:"Undistributed includes A&G, S&M, POM, Utilities. / Undistributed impacts GOP."},
+      {en:"EBITDA", ja:"EBITDA", uses:"EBITDA is after management fees and certain adjustments. / EBITDA is used for valuation."},
+      {en:"owner focus", ja:"オーナー視点", uses:"Owners focus on cash and returns. / Explain metrics tied to decisions."},
+      {en:"keep it simple", ja:"簡潔に", uses:"Use simple language and structure. / Avoid excessive jargon."}
+    ]
+  },
+  {
+    title:"Flow-Through: ADR-led vs OCC-led Diagnosis",
+    guide:"Flow-throughをADR主導/OCC主導で切り分ける。",
+    prompts:[
+      "Is the revenue change driven more by ADR or occupancy? How do you know?",
+      "Which variable costs moved with volume and impacted flow-through?",
+      "What fixed costs prevented margin recovery even when revenue improved?",
+      "What would you monitor weekly to prevent flow-through deterioration?"
+    ],
+    keywords:[
+      {en:"flow-through", ja:"増収利益率", uses:"Flow-through deteriorated due to variable costs. / Target higher flow-through on ADR-led growth."},
+      {en:"ADR-led", ja:"ADR主導", uses:"ADR-led growth usually improves margin. / Aim for ADR-led recovery."},
+      {en:"OCC-led", ja:"稼働主導", uses:"OCC-led growth can increase variable costs. / OCC-led pickup may hurt margin."},
+      {en:"fixed cost creep", ja:"固定費じわ増え", uses:"Fixed cost creep reduces leverage. / Identify creep early."},
+      {en:"weekly monitoring", ja:"週次監視", uses:"Monitor pickup, CPOR, overtime weekly. / Weekly monitoring prevents surprises."}
+    ]
+  },
+  {
+    title:"Forecast: Assumptions, Risks, Sensitivity",
+    guide:"Forecastの前提とリスクを英語で説明する。",
+    prompts:[
+      "What are the key assumptions behind your forecast this month?",
+      "Which risks could cause downside, and what are early indicators?",
+      "What is your sensitivity to ADR and occupancy changes?",
+      "How will you update the forecast based on pickup trends?"
+    ],
+    keywords:[
+      {en:"assumption", ja:"前提", uses:"Assumptions must be transparent. / Document key assumptions."},
+      {en:"downside risk", ja:"下振れリスク", uses:"Downside risk is demand softness. / Identify risk triggers."},
+      {en:"sensitivity", ja:"感応度", uses:"Sensitivity to ADR is high. / Run sensitivity scenarios."},
+      {en:"scenario", ja:"シナリオ", uses:"Prepare base/upside/downside scenarios. / Scenarios improve readiness."},
+      {en:"visibility", ja:"見通し", uses:"Visibility is low. / Low visibility requires cautious forecasting."}
+    ]
+  },
+  {
+    title:"Reforecast: Explain Changes with Logic, Not Restatement",
+    guide:"再予測の変更理由をロジックで説明する。",
+    prompts:[
+      "What changed since the last forecast submission?",
+      "Which line items moved structurally versus temporarily?",
+      "How did the updated forecast impact GOP commitment?",
+      "What actions are reflected in this reforecast (not just restatement)?"
+    ],
+    keywords:[
+      {en:"reforecast", ja:"再予測", uses:"Reforecast reflects updated pickup. / Reforecast includes new assumptions."},
+      {en:"restatement", ja:"単なる置換", uses:"This is not a restatement; it includes actions. / Avoid restatement without strategy."},
+      {en:"commitment", ja:"コミット", uses:"We remain committed to targets. / Commitment requires discipline."},
+      {en:"structural", ja:"構造的", uses:"Structural cost creep needs a plan. / Structural issues take time."},
+      {en:"temporary", ja:"一時的", uses:"Temporary items may reverse next month. / Separate temporary impacts."}
+    ]
+  },
+  {
+    title:"Month-End Close: Accuracy vs Speed Controls",
+    guide:"月次締めの精度とスピードの両立を話す。",
+    prompts:[
+      "Where do month-end errors usually happen and why?",
+      "How do you improve close speed without sacrificing accuracy?",
+      "What checks should be mandatory before reporting?",
+      "What tasks can be standardized across hotels?"
+    ],
+    keywords:[
+      {en:"month-end close", ja:"月次締め", uses:"Month-end close needs discipline. / Close quality drives trust."},
+      {en:"reconciliation", ja:"照合", uses:"Reconcile key accounts. / Reconciliation should be automated where possible."},
+      {en:"checklist", ja:"チェックリスト", uses:"Checklist prevents omissions. / Keep it short and mandatory."},
+      {en:"standard process", ja:"標準プロセス", uses:"Standard process reduces variation. / Standardization saves time."},
+      {en:"speed vs accuracy", ja:"速度と精度", uses:"Balance speed and accuracy. / Avoid rushing without controls."}
+    ]
+  },
+  {
+    title:"Data Quality: Mapping Errors and Corrections",
+    guide:"データ不備の説明と再発防止を会話する。",
+    prompts:[
+      "What was wrong with the data and how was it discovered?",
+      "What correction did you make and which lines were impacted?",
+      "How do you prevent the same issue in the next cycle?",
+      "How do you communicate the correction without losing trust?"
+    ],
+    keywords:[
+      {en:"mapping", ja:"マッピング", uses:"Mapping errors cause misstatements. / Validate mapping before submission."},
+      {en:"correction", ja:"修正", uses:"We corrected the report promptly. / Document the correction clearly."},
+      {en:"root cause", ja:"根本原因", uses:"Root cause was a mapping issue. / Fix root cause, not symptoms."},
+      {en:"prevention", ja:"再発防止", uses:"Add validation checks. / Improve process documentation."},
+      {en:"trust", ja:"信頼", uses:"Trust depends on transparency. / Communicate issues clearly."}
+    ]
+  },
+  {
+    title:"Cash vs P&L: Working Capital in Hotels",
+    guide:"PLとキャッシュの違いを運転資本で説明する。",
+    prompts:[
+      "What items impact cash even if the P&L looks stable?",
+      "How do receivables and payables affect working capital in hotels?",
+      "What operational actions improve cash without hurting service?",
+      "How would you explain cash impact to non-finance teams?"
+    ],
+    keywords:[
+      {en:"working capital", ja:"運転資本", uses:"Working capital control improves liquidity. / Working capital is operational."},
+      {en:"receivables", ja:"売掛金", uses:"Receivables increased due to late settlements. / Reduce receivable days."},
+      {en:"payables", ja:"買掛金", uses:"Payables timing affects cash. / Plan payables carefully."},
+      {en:"cash impact", ja:"キャッシュ影響", uses:"Cash impact differs from profit impact. / Track cash impact regularly."},
+      {en:"liquidity", ja:"流動性", uses:"Liquidity must be stable. / Liquidity requires planning."}
+    ]
+  },
+  {
+    title:"AR: Credit Risk and Collections (Groups & MICE)",
+    guide:"売掛金と回収、信用管理を会話する。",
+    prompts:[
+      "Which accounts are driving AR increase and why?",
+      "How do you assess credit risk for group customers?",
+      "What collection steps reduce DSO without damaging relationships?",
+      "What controls prevent future AR issues?"
+    ],
+    keywords:[
+      {en:"AR", ja:"売掛金", uses:"AR increased due to delayed invoices. / Monitor AR aging weekly."},
+      {en:"DSO", ja:"回収日数", uses:"DSO worsened this month. / Improve DSO with faster billing."},
+      {en:"credit risk", ja:"信用リスク", uses:"Assess credit risk before confirming events. / Set credit limits."},
+      {en:"aging", ja:"滞留表", uses:"Aging shows overdue balances. / Focus on the oldest balances first."},
+      {en:"collection", ja:"回収", uses:"Collection requires clear process. / Escalate overdue accounts."}
+    ]
+  },
+  {
+    title:"AP: Payment Terms and Vendor Controls",
+    guide:"支払い条件とベンダー統制を話す。",
+    prompts:[
+      "How do payment terms impact cash planning?",
+      "What risks come from delaying payments too much?",
+      "How do you prevent duplicate payments or wrong coding?",
+      "What is your monthly AP review routine?"
+    ],
+    keywords:[
+      {en:"payment terms", ja:"支払条件", uses:"Payment terms impact cash timing. / Negotiate terms where possible."},
+      {en:"vendor", ja:"取引先", uses:"Vendor relationships matter. / Keep vendor communication clear."},
+      {en:"duplicate payment", ja:"二重支払", uses:"Prevent duplicate payments with checks. / Use three-way match."},
+      {en:"coding", ja:"勘定科目付け", uses:"Wrong coding distorts trends. / Standardize coding rules."},
+      {en:"review routine", ja:"レビュー習慣", uses:"Run a monthly AP review. / Review exceptions and outliers."}
+    ]
+  },
+  {
+    title:"Inventory: F&B Stock, Shrinkage, and Controls",
+    guide:"在庫と棚卸差異、統制を説明する。",
+    prompts:[
+      "What caused inventory variance this month?",
+      "How do you detect shrinkage in F&B operations?",
+      "What controls reduce waste and theft realistically?",
+      "How do you keep inventory processes simple for teams?"
+    ],
+    keywords:[
+      {en:"inventory variance", ja:"在庫差異", uses:"Inventory variance indicates process issues. / Investigate variance quickly."},
+      {en:"shrinkage", ja:"目減り", uses:"Shrinkage can come from waste or theft. / Measure shrinkage regularly."},
+      {en:"cycle count", ja:"循環棚卸", uses:"Cycle counts reduce surprises. / Use cycle counts for high-risk items."},
+      {en:"par level", ja:"適正在庫", uses:"Set par levels to control stock. / Par levels reduce overbuying."},
+      {en:"control", ja:"統制", uses:"Simple controls are most effective. / Controls must be adopted by teams."}
+    ]
+  },
+  {
+    title:"Capex vs Opex: Explaining Decisions",
+    guide:"Capex/Opexの違いと意思決定を話す。",
+    prompts:[
+      "How do you explain the difference between Capex and Opex?",
+      "What criteria decide whether a cost should be capitalized?",
+      "How do Capex decisions impact future P&L and service quality?",
+      "How do you present Capex priorities to stakeholders?"
+    ],
+    keywords:[
+      {en:"Capex", ja:"設備投資", uses:"Capex improves asset condition. / Capex requires prioritization."},
+      {en:"Opex", ja:"運営費", uses:"Opex impacts monthly performance. / Control Opex with discipline."},
+      {en:"capitalize", ja:"資産計上", uses:"Capitalize eligible costs. / Follow accounting policy."},
+      {en:"ROI", ja:"投資対効果", uses:"ROI must be explained clearly. / Use simple ROI assumptions."},
+      {en:"prioritization", ja:"優先順位", uses:"Prioritization is needed due to budget limits. / Rank by risk and impact."}
+    ]
+  },
+  {
+    title:"FF&E Reserve: Owner Expectations and Planning",
+    guide:"FF&E積立の考え方と説明を練習する。",
+    prompts:[
+      "What is an FF&E reserve, and why is it important?",
+      "How do you explain FF&E needs without sounding expensive?",
+      "What happens if FF&E is underfunded for multiple years?",
+      "How do you align FF&E planning with brand standards?"
+    ],
+    keywords:[
+      {en:"FF&E", ja:"什器備品", uses:"FF&E impacts guest experience. / FF&E planning prevents asset decline."},
+      {en:"reserve", ja:"積立", uses:"Reserve supports long-term maintenance. / Reserve must be planned."},
+      {en:"underfunded", ja:"不足", uses:"Underfunded FF&E increases future risk. / Underfunding leads to bigger spend later."},
+      {en:"brand standards", ja:"ブランド基準", uses:"Brand standards require certain upgrades. / Align projects with standards."},
+      {en:"long-term", ja:"長期", uses:"Take a long-term view. / Long-term planning builds credibility."}
+    ]
+  },
+  {
+    title:"A&G: Controlling Overhead Without Breaking Operations",
+    guide:"A&Gの抑制と運用影響の線引きを話す。",
+    prompts:[
+      "Which A&G lines are trending up and why?",
+      "Which cost cuts are safe, and which risk operations?",
+      "How do you set A&G targets that teams can accept?",
+      "What governance prevents A&G creep over time?"
+    ],
+    keywords:[
+      {en:"overhead", ja:"間接費", uses:"Overhead must be controlled. / Overhead creep reduces leverage."},
+      {en:"safe cuts", ja:"安全な削減", uses:"Choose safe cuts first. / Not all savings are safe."},
+      {en:"risk", ja:"リスク", uses:"Cost cuts can create operational risk. / Evaluate risks objectively."},
+      {en:"target", ja:"目標", uses:"Targets must be realistic. / Targets need accountability."},
+      {en:"creep", ja:"じわ増え", uses:"Creep happens quietly. / Stop creep with reviews."}
+    ]
+  },
+  {
+    title:"S&M: Marketing Spend vs ROI (Hotels)",
+    guide:"S&Mの費用対効果を英語で説明する。",
+    prompts:[
+      "Which marketing activities drove bookings this month?",
+      "How do you measure ROI without perfect attribution?",
+      "How did promotions impact ADR and net revenue?",
+      "Where would you reallocate budget next month and why?"
+    ],
+    keywords:[
+      {en:"ROI", ja:"投資対効果", uses:"ROI must be tracked by campaign. / ROI is unclear without metrics."},
+      {en:"attribution", ja:"効果測定", uses:"Attribution is imperfect. / Use practical attribution rules."},
+      {en:"net impact", ja:"純影響", uses:"Net impact can be negative after fees. / Evaluate net impact."},
+      {en:"reallocate", ja:"再配分", uses:"Reallocate budget to high-return channels. / Reallocation must be justified."},
+      {en:"campaign", ja:"施策", uses:"Campaigns should be time-boxed. / Track results after campaigns."}
+    ]
+  },
+  {
+    title:"Insurance & Claims: Handling Volatile Costs",
+    guide:"保険とクレーム費用の説明、平準化を話す。",
+    prompts:[
+      "Why did insurance or claims costs spike this month?",
+      "How do you communicate volatility without losing credibility?",
+      "What actions reduce risk of recurrence?",
+      "How do you normalize results for one-time claims?"
+    ],
+    keywords:[
+      {en:"claim", ja:"保険請求/損害", uses:"A claim caused a one-time spike. / Claims must be documented."},
+      {en:"volatility", ja:"変動", uses:"Volatility distorts trends. / Explain volatility clearly."},
+      {en:"recurrence", ja:"再発", uses:"Reduce recurrence with preventive controls. / Recurrence must be tracked."},
+      {en:"normalize", ja:"平準化", uses:"Normalize results for one-time claims. / Show normalized performance."},
+      {en:"credibility", ja:"信頼性", uses:"Credibility requires transparency. / Avoid hiding issues."}
+    ]
+  },
+  {
+    title:"Management Fee: Explaining Owner-Contract Items",
+    guide:"契約項目（Management Fee等）の扱いを会話する。",
+    prompts:[
+      "How do management fees work in this hotel’s contract?",
+      "Why can performance improve but owner return still disappoint?",
+      "What should you highlight when discussing fee-related impacts?",
+      "How do you keep the discussion factual and calm?"
+    ],
+    keywords:[
+      {en:"management fee", ja:"運営委託料", uses:"Management fee is contract-based. / Fees impact owner returns."},
+      {en:"owner return", ja:"オーナーリターン", uses:"Owner returns depend on multiple items. / Explain drivers clearly."},
+      {en:"contract", ja:"契約", uses:"Contract terms must be respected. / Use contract definitions."},
+      {en:"factual", ja:"事実ベース", uses:"Keep it factual. / Use numbers, not emotions."},
+      {en:"calm", ja:"冷静", uses:"Stay calm under pressure. / Calm explanations build trust."}
+    ]
+  },
+  {
+    title:"Owner Questions: One-Sentence Summary + Supporting Facts",
+    guide:"オーナーへの短い回答を練習する。",
+    prompts:[
+      "If an owner asks 'Why is GOP below budget?', how do you answer?",
+      "What two to three supporting facts would you use?",
+      "How do you explain actions and timing credibly?",
+      "What is your one-sentence summary for the month?"
+    ],
+    keywords:[
+      {en:"one-sentence summary", ja:"一文要約", uses:"Keep the summary crisp. / Make it action-oriented."},
+      {en:"supporting facts", ja:"根拠", uses:"Use two to three key facts. / Facts should link to actions."},
+      {en:"timing", ja:"タイミング", uses:"Provide timing with context. / Avoid overpromising."},
+      {en:"credibility", ja:"信頼性", uses:"Credibility comes from consistency. / Be transparent about risks."},
+      {en:"clarity", ja:"明瞭さ", uses:"Use simple language. / Avoid unnecessary jargon."}
+    ]
+  },
+  {
+    title:"Budgeting: Building a Practical Budget (USALI)",
+    guide:"USALIの枠で現実的な予算を作る会話をする。",
+    prompts:[
+      "What is your approach to building a realistic budget?",
+      "Which drivers do you use for revenue and key costs?",
+      "How do you handle uncertainty when budgeting?",
+      "How do you align budget owners across departments?"
+    ],
+    keywords:[
+      {en:"driver", ja:"ドライバー", uses:"Use drivers for revenue and costs. / Drivers must be measurable."},
+      {en:"uncertainty", ja:"不確実性", uses:"Use ranges when uncertainty is high. / Document uncertainties."},
+      {en:"ownership", ja:"責任", uses:"Budget ownership must be clear. / Owners must commit to actions."},
+      {en:"assumption", ja:"前提", uses:"Assumptions must be documented. / Validate assumptions regularly."},
+      {en:"alignment", ja:"認識合わせ", uses:"Alignment prevents surprises. / Align early with department heads."}
+    ]
+  },
+  {
+    title:"Rolling Forecast: Cadence and Governance",
+    guide:"ローリングForecastの運用ルールを英語で話す。",
+    prompts:[
+      "What cadence do you recommend for rolling forecasts and why?",
+      "Who should approve major assumption changes?",
+      "How do you keep the process non-person-dependent?",
+      "What simple dashboard would support forecast governance?"
+    ],
+    keywords:[
+      {en:"cadence", ja:"頻度", uses:"Set a weekly cadence for updates. / Cadence creates rhythm."},
+      {en:"approval", ja:"承認", uses:"Approval is needed for big changes. / Keep approval rules clear."},
+      {en:"non-person-dependent", ja:"非属人化", uses:"Standardize files and paths. / Remove hard-coded steps."},
+      {en:"governance", ja:"統制", uses:"Governance prevents chaos. / Use change logs."},
+      {en:"dashboard", ja:"ダッシュボード", uses:"Dashboard should be simple and actionable. / Show key drivers only."}
+    ]
+  },
+  {
+    title:"Pickup Review: Short-Term Controls for Forecast Accuracy",
+    guide:"Pickupを使って予測精度を上げる会話をする。",
+    prompts:[
+      "What did pickup tell you in the last seven days?",
+      "What changed in channel mix and why?",
+      "How do you adjust staffing based on pickup trends?",
+      "What is your rule for updating the forecast based on pickup?"
+    ],
+    keywords:[
+      {en:"pickup", ja:"積み上がり", uses:"Pickup improved after a campaign. / Monitor pickup daily."},
+      {en:"mix shift", ja:"ミックス変化", uses:"Mix shifted to OTAs. / Mix shift impacts net revenue."},
+      {en:"staffing", ja:"人員配置", uses:"Adjust staffing to demand signals. / Avoid overstaffing."},
+      {en:"update rule", ja:"更新ルール", uses:"Set clear rules for forecast updates. / Avoid ad-hoc changes."},
+      {en:"accuracy", ja:"精度", uses:"Accuracy improves with discipline. / Track forecast accuracy monthly."}
+    ]
+  },
+  {
+    title:"Cost Containment: Action Plan for Next Submission",
+    guide:"次回提出でGOPを取り返すコスト施策を整理する。",
+    prompts:[
+      "Which costs have the biggest impact on GOP variance?",
+      "What specific actions will you implement before next submission?",
+      "What is the expected savings and timeline for each action?",
+      "How will you track execution and ensure accountability?"
+    ],
+    keywords:[
+      {en:"cost containment", ja:"コスト抑制", uses:"Cost containment is a priority. / Protect core service while saving."},
+      {en:"expected savings", ja:"期待削減", uses:"Savings must be quantified. / Track savings versus baseline."},
+      {en:"timeline", ja:"期限", uses:"Set realistic timelines. / Timeline discipline matters."},
+      {en:"accountability", ja:"責任", uses:"Assign owners to actions. / Accountability ensures execution."},
+      {en:"tracking", ja:"追跡", uses:"Track actions weekly. / Tracking prevents drift."}
+    ]
+  },
+  {
+    title:"Expense Reclass: Avoiding Distorted Trends",
+    guide:"科目振替がトレンドを歪める問題を説明する。",
+    prompts:[
+      "How can expense reclasses distort trend analysis?",
+      "What rules do you use to keep coding consistent?",
+      "How do you document reclasses for transparency?",
+      "What checks detect unusual reclass activity?"
+    ],
+    keywords:[
+      {en:"reclass", ja:"振替", uses:"Reclasses can distort trends. / Document reclasses clearly."},
+      {en:"coding rules", ja:"付け替えルール", uses:"Coding rules must be consistent. / Train teams on coding rules."},
+      {en:"transparency", ja:"透明性", uses:"Transparency prevents confusion. / Keep a reclass log."},
+      {en:"unusual", ja:"不自然", uses:"Detect unusual activity with outlier checks. / Review exceptions."},
+      {en:"trend distortion", ja:"歪み", uses:"Distortion hides real performance. / Normalize where needed."}
+    ]
+  },
+  {
+    title:"Accruals: Explaining Timing Differences",
+    guide:"発生主義とタイミング差異を説明する。",
+    prompts:[
+      "Why do accruals matter for monthly reporting?",
+      "What are common accrual mistakes in hotels?",
+      "How do you explain timing differences to non-finance teams?",
+      "What controls ensure accruals are consistent each month?"
+    ],
+    keywords:[
+      {en:"accrual", ja:"未払/前払計上", uses:"Accruals match costs to the right period. / Accruals improve accuracy."},
+      {en:"timing", ja:"タイミング", uses:"Timing differences are not structural. / Explain timing clearly."},
+      {en:"consistency", ja:"一貫性", uses:"Consistency matters more than perfection. / Follow the same process."},
+      {en:"mistake", ja:"ミス", uses:"Common mistakes include missing accruals. / Use checklists."},
+      {en:"control", ja:"統制", uses:"Controls ensure monthly discipline. / Add mandatory reviews."}
+    ]
+  },
+  {
+    title:"Inventory to COGS: Explaining the Bridge",
+    guide:"棚卸と原価のつながりを英語で説明する。",
+    prompts:[
+      "How does inventory movement impact COGS in F&B?",
+      "What causes inventory-to-COGS mismatches?",
+      "What process changes reduce mismatches?",
+      "How do you validate the inventory numbers quickly?"
+    ],
+    keywords:[
+      {en:"COGS", ja:"売上原価", uses:"COGS is impacted by inventory movement. / Validate COGS drivers."},
+      {en:"bridge", ja:"つなぎ", uses:"Build a bridge from inventory to COGS. / Bridges clarify drivers."},
+      {en:"mismatch", ja:"不一致", uses:"Mismatch indicates process or counting issues. / Investigate mismatches."},
+      {en:"count accuracy", ja:"棚卸精度", uses:"Accuracy improves with cycle counts. / Train counters and standardize."},
+      {en:"validation", ja:"検証", uses:"Validate totals and reasonableness. / Use simple validation checks."}
+    ]
+  },
+  {
+    title:"KPI Definitions: Aligning Terms Across Properties",
+    guide:"KPI定義の不一致を解消する会話をする。",
+    prompts:[
+      "Which KPI definitions are inconsistent across properties today?",
+      "How do you document KPI definitions so everyone aligns?",
+      "What is the simplest way to onboard new members on KPI logic?",
+      "How do you handle KPI changes without confusion?"
+    ],
+    keywords:[
+      {en:"definition", ja:"定義", uses:"Definitions must be consistent. / Clarify definitions with examples."},
+      {en:"documentation", ja:"ドキュメント", uses:"Documentation prevents confusion. / Keep documentation searchable."},
+      {en:"onboarding", ja:"教育", uses:"Onboarding needs a quick guide. / Use examples and templates."},
+      {en:"change management", ja:"変更管理", uses:"Log all changes. / Communicate changes early."},
+      {en:"standard glossary", ja:"用語集", uses:"Use a shared glossary. / Glossary supports comparability."}
+    ]
+  },
+  {
+    title:"Audit Readiness: Controls and Evidence",
+    guide:"監査に耐える統制と証跡の話をする。",
+    prompts:[
+      "What controls are most important for audit readiness?",
+      "What evidence do you need to keep for key processes?",
+      "How do you keep controls practical for hotel teams?",
+      "How do you handle exceptions without breaking trust?"
+    ],
+    keywords:[
+      {en:"audit", ja:"監査", uses:"Audit checks controls and evidence. / Be prepared with documentation."},
+      {en:"evidence", ja:"証跡", uses:"Evidence supports conclusions. / Keep evidence organized."},
+      {en:"control", ja:"統制", uses:"Controls must be practical. / Too much control reduces adoption."},
+      {en:"exception", ja:"例外", uses:"Log exceptions. / Review exceptions regularly."},
+      {en:"readiness", ja:"準備", uses:"Readiness reduces last-minute stress. / Build readiness into routines."}
+    ]
+  },
+  {
+    title:"SOP + KPI Linkage: Making Operations Measurable",
+    guide:"SOPをKPIに落として運用を測れるようにする。",
+    prompts:[
+      "Which SOP steps should be tracked with KPIs and why?",
+      "How do you ensure data capture is simple for hotel teams?",
+      "What is the best way to audit SOP compliance without friction?",
+      "How can finance support operations with practical insights?"
+    ],
+    keywords:[
+      {en:"SOP compliance", ja:"SOP遵守", uses:"Compliance improves consistency. / Track compliance simply."},
+      {en:"data capture", ja:"データ取得", uses:"Data capture should be lightweight. / Automate where possible."},
+      {en:"friction", ja:"摩擦", uses:"Reduce friction to increase adoption. / UX matters."},
+      {en:"practical insight", ja:"実務的示唆", uses:"Insights must be practical. / Tie insights to actions."},
+      {en:"measurable", ja:"測定可能", uses:"Make operations measurable. / Use simple KPIs first."}
+    ]
+  },
+  {
+    title:"Reporting Automation: Repetitive Steps to Automate First",
+    guide:"レポート作業の自動化優先順位を話す。",
+    prompts:[
+      "Which reporting steps are most repetitive and should be automated first?",
+      "How do you ensure the process is non-person-dependent?",
+      "What validation checks do you add to avoid wrong submissions?",
+      "How do you communicate automation benefits to stakeholders?"
+    ],
+    keywords:[
+      {en:"automation", ja:"自動化", uses:"Automation reduces manual work. / Automation improves consistency."},
+      {en:"validation", ja:"検証", uses:"Add validation before submission. / Validation prevents errors."},
+      {en:"exception handling", ja:"例外対応", uses:"Plan exceptions early. / Log exceptions."},
+      {en:"stakeholder buy-in", ja:"合意", uses:"Show quick wins. / Link benefits to ROI."},
+      {en:"non-person-dependent", ja:"非属人化", uses:"Standardize folders and naming. / Remove hard-coded paths."}
+    ]
+  },
+  {
+    title:"Benchmarking: Peer Set, Context, and Fair Targets",
+    guide:"比較対象と前提条件を揃えてベンチマークする。",
+    prompts:[
+      "How do you define a fair peer set for benchmarking?",
+      "What context adjustments are necessary (hotel type, ADR band, seasonality)?",
+      "What risks come from copying benchmarks without context?",
+      "How do you set targets that motivate teams without being unrealistic?"
+    ],
+    keywords:[
+      {en:"peer set", ja:"比較対象群", uses:"Define peer set carefully. / Peer set must be comparable."},
+      {en:"context", ja:"前提", uses:"Context matters for interpretation. / Adjust for seasonality and type."},
+      {en:"seasonality", ja:"季節性", uses:"Seasonality impacts demand. / Compare like-for-like periods."},
+      {en:"ADR band", ja:"ADR帯", uses:"ADR band affects cost structure. / Use ADR bands for fair comps."},
+      {en:"target", ja:"目標", uses:"Targets must be owned by teams. / Targets should be measurable."}
+    ]
+  },
+  {
+    title:"Like-for-Like: Explaining Comparable Performance",
+    guide:"同一条件（like-for-like）で説明する。",
+    prompts:[
+      "What does like-for-like mean in hotel performance analysis?",
+      "Which factors should be normalized to make comparisons fair?",
+      "How do you explain why headline numbers can mislead?",
+      "How would you present like-for-like results in one paragraph?"
+    ],
+    keywords:[
+      {en:"like-for-like", ja:"同一条件", uses:"Like-for-like removes structural noise. / Use like-for-like to compare fairly."},
+      {en:"normalize", ja:"平準化", uses:"Normalize for one-time items. / Normalize for calendar shifts."},
+      {en:"headline", ja:"表面上", uses:"Headline numbers can mislead. / Explain beyond headlines."},
+      {en:"calendar shift", ja:"暦ズレ", uses:"Calendar shifts impact results. / Adjust for holidays and weekdays."},
+      {en:"fair comparison", ja:"公平比較", uses:"Fair comparisons build trust. / Explain assumptions clearly."}
+    ]
+  },
+  {
+    title:"Forecast Accuracy: Learning from Misses",
+    guide:"予測未達を学びに変えて説明する。",
+    prompts:[
+      "Which assumptions were wrong and what data changed your view?",
+      "What signals should you monitor to improve accuracy next time?",
+      "How do you separate controllable and uncontrollable factors?",
+      "What one process change will prevent the same miss?"
+    ],
+    keywords:[
+      {en:"forecast miss", ja:"予測未達", uses:"Forecast miss occurred due to demand shift. / Explain the miss clearly."},
+      {en:"signal", ja:"シグナル", uses:"Pickup is a key signal. / Signals improve forecast accuracy."},
+      {en:"controllable", ja:"管理可能", uses:"Focus on controllable actions. / Separate factors clearly."},
+      {en:"process change", ja:"改善", uses:"Implement one simple process change. / Keep it sustainable."},
+      {en:"learning", ja:"学び", uses:"Turn misses into learning. / Learning builds better process."}
+    ]
+  },
+  {
+    title:"Owner Reporting: What to Show (Not Everything)",
+    guide:"オーナーレポートの情報量を整理する。",
+    prompts:[
+      "What are the top three messages owners want each month?",
+      "What details should be in backup, not the main story?",
+      "How do you avoid defensiveness when numbers are weak?",
+      "How do you close the discussion with clear next steps?"
+    ],
+    keywords:[
+      {en:"top messages", ja:"主要メッセージ", uses:"Keep top messages clear. / Three messages are enough."},
+      {en:"backup", ja:"補足", uses:"Put details in backup slides. / Backup supports credibility."},
+      {en:"defensive", ja:"防御的", uses:"Avoid defensive tone. / Stay factual and calm."},
+      {en:"next steps", ja:"次のステップ", uses:"Close with next steps and owners. / Confirm deadlines."},
+      {en:"story", ja:"ストーリー", uses:"Tell a simple story. / Link facts to actions."}
+    ]
+  },
+  {
+    title:"Net vs Gross Thinking: Channel Profitability",
+    guide:"グロスではなくネットでチャネルを評価する。",
+    prompts:[
+      "How do you compare net revenue across channels?",
+      "Which bookings look good on paper but are weak after costs?",
+      "How do you explain net thinking to non-finance teams?",
+      "What weekly metrics prevent dilution?"
+    ],
+    keywords:[
+      {en:"gross vs net", ja:"グロス/ネット", uses:"Gross looks good but net is weak. / Always check net results."},
+      {en:"contribution margin", ja:"限界利益", uses:"Contribution margin differs by channel. / Protect contribution margin."},
+      {en:"commission", ja:"手数料", uses:"Commission reduces net revenue. / Track commission cost."},
+      {en:"dilution", ja:"希薄化", uses:"Dilution comes from heavy promos. / Prevent dilution with rules."},
+      {en:"weekly metric", ja:"週次指標", uses:"Show net ADR and channel mix weekly. / Weekly metrics create discipline."}
+    ]
+  },
+  {
+    title:"Pricing Governance: Who Decides What",
+    guide:"価格決定の統制（権限/例外）を説明する。",
+    prompts:[
+      "Who has the final say on pricing decisions and why?",
+      "What rules prevent over-discounting and protect margin?",
+      "How do you document decisions for transparency?",
+      "What exceptions are allowed and how are they approved?"
+    ],
+    keywords:[
+      {en:"governance", ja:"統制", uses:"Governance prevents random discounting. / Governance must be clear."},
+      {en:"approval", ja:"承認", uses:"Approval is required for deep discounts. / Keep approvals timely."},
+      {en:"exception", ja:"例外", uses:"Exceptions must be limited. / Log exceptions for review."},
+      {en:"transparency", ja:"透明性", uses:"Documentation creates transparency. / Transparent decisions reduce conflict."},
+      {en:"rule", ja:"ルール", uses:"Rules protect margin. / Make rules simple and enforceable."}
+    ]
+  },
+  {
+    title:"Market Share vs Price War: Competitive Response",
+    guide:"価格戦争を避けつつ競合対応を議論する。",
+    prompts:[
+      "What changed in the competitive set this month?",
+      "How did competitors price relative to you and why?",
+      "What is your market share trend and key risks?",
+      "How do you respond without starting a price war?"
+    ],
+    keywords:[
+      {en:"competitive set", ja:"競合群", uses:"Competitive set pricing shifted down. / Monitor daily."},
+      {en:"market share", ja:"市場シェア", uses:"Share declined on weekdays. / Profit matters more than share."},
+      {en:"price war", ja:"価格戦争", uses:"Avoid a price war. / Price war destroys value."},
+      {en:"value proposition", ja:"価値提案", uses:"Value proposition justifies price. / Compete on value."},
+      {en:"positioning", ja:"ポジション", uses:"Keep positioning consistent. / Positioning supports pricing power."}
+    ]
+  },
+  {
+    title:"Guest Experience vs Cost: Finding the Line",
+    guide:"コスト削減とゲスト体験の線引きを話す。",
+    prompts:[
+      "Which cost cuts are safe and which risk guest dissatisfaction?",
+      "How do you evaluate trade-offs objectively?",
+      "What service standards must never be compromised?",
+      "How do you monitor guest feedback after changes?"
+    ],
+    keywords:[
+      {en:"trade-off", ja:"トレードオフ", uses:"Trade-offs should be data-driven. / Avoid false trade-offs."},
+      {en:"service standard", ja:"サービス基準", uses:"Service standards must be protected. / Define minimum standards."},
+      {en:"guest feedback", ja:"顧客評価", uses:"Monitor feedback weekly. / Watch for negative signals."},
+      {en:"NPS", ja:"推奨度", uses:"NPS is a useful signal. / Interpret with context."},
+      {en:"cost-safe", ja:"安全な削減", uses:"Prefer cost-safe actions. / Not all savings are cost-safe."}
+    ]
+  },
+  {
+    title:"KPI Dashboard Adoption: Making It Actually Used",
+    guide:"ダッシュボードを定着させる設計と運用を話す。",
+    prompts:[
+      "What is the single job-to-be-done for the KPI dashboard?",
+      "Which KPIs must be on the first screen and why?",
+      "How do you reduce friction for teams to use it weekly?",
+      "What feedback loop will you run to improve adoption?"
+    ],
+    keywords:[
+      {en:"adoption", ja:"定着", uses:"Adoption improves when it is simple. / Measure adoption."},
+      {en:"first screen", ja:"初期画面", uses:"First screen shows only critical KPIs. / Mobile readability matters."},
+      {en:"frictionless", ja:"摩擦少", uses:"Remove steps that add friction. / UX increases usage."},
+      {en:"weekly rhythm", ja:"週次習慣", uses:"Weekly rhythm creates routine. / Rhythm supports accountability."},
+      {en:"feedback loop", ja:"改善ループ", uses:"Run fast feedback loops. / Iterate quickly."}
+    ]
+  },
+  {
+    title:"USALI Department vs Undistributed: Clean Storytelling",
+    guide:"部門とUndistributedを分けてストーリー化する。",
+    prompts:[
+      "Which department drove performance this month and why?",
+      "Which undistributed items changed and what is the reason?",
+      "What is one clear takeaway for operations leaders?",
+      "What is one clear takeaway for owners?"
+    ],
+    keywords:[
+      {en:"department driver", ja:"部門要因", uses:"Rooms drove the variance. / Banquets recovered in the second half."},
+      {en:"undistributed driver", ja:"非配賦要因", uses:"Utilities increased due to consumption. / POM had one-time repairs."},
+      {en:"takeaway", ja:"要点", uses:"One takeaway for ops. / One takeaway for owners."},
+      {en:"storytelling", ja:"ストーリー化", uses:"Storytelling improves alignment. / Link facts to actions."},
+      {en:"alignment", ja:"認識合わせ", uses:"Alignment speeds execution. / Align on definitions and priorities."}
+    ]
+  },
+  {
+    title:"Contracted Services: Explaining Vendor Spikes",
+    guide:"外注・委託費の急増を説明する。",
+    prompts:[
+      "Which contracted services increased and why?",
+      "Is the increase volume-driven or price-driven?",
+      "What controls prevent uncontrolled vendor spend?",
+      "How do you renegotiate scope without hurting quality?"
+    ],
+    keywords:[
+      {en:"contracted services", ja:"委託費", uses:"Contracted services increased due to events. / Review scope and frequency."},
+      {en:"scope", ja:"範囲", uses:"Scope must be defined clearly. / Scope creep increases cost."},
+      {en:"price-driven", ja:"単価要因", uses:"Price-driven increases need renegotiation. / Compare vendor rates."},
+      {en:"volume-driven", ja:"数量要因", uses:"Volume-driven increases may be expected. / Normalize per unit."},
+      {en:"renegotiate", ja:"再交渉", uses:"Renegotiate scope and terms. / Keep service levels stable."}
+    ]
+  },
+  {
+    title:"IT & Systems Costs: Explaining Subscriptions and Projects",
+    guide:"IT費用（サブスク/プロジェクト）を説明する。",
+    prompts:[
+      "Which IT costs increased this month and why?",
+      "How do you separate one-time project costs from recurring subscriptions?",
+      "What is the value case for the spend in simple terms?",
+      "What governance prevents tool sprawl?"
+    ],
+    keywords:[
+      {en:"subscription", ja:"サブスク", uses:"Subscriptions are recurring. / Review subscriptions quarterly."},
+      {en:"one-time project", ja:"一時PJ", uses:"Project costs are one-time. / Document project scope and ROI."},
+      {en:"value case", ja:"価値根拠", uses:"Explain value in simple terms. / Link value to productivity."},
+      {en:"tool sprawl", ja:"ツール乱立", uses:"Prevent tool sprawl with governance. / Standardize tools where possible."},
+      {en:"recurring", ja:"継続", uses:"Separate recurring vs one-time. / Recurring items require structural fixes."}
+    ]
+  },
+  {
+    title:"Training & Turnover: Cost and Stability",
+    guide:"離職・教育のコスト影響を説明する。",
+    prompts:[
+      "How does turnover impact labor cost and service quality?",
+      "What costs increase when turnover is high?",
+      "What indicators predict turnover risk?",
+      "What actions reduce turnover without increasing fixed cost too much?"
+    ],
+    keywords:[
+      {en:"turnover", ja:"離職", uses:"Turnover increases training cost. / Turnover hurts consistency."},
+      {en:"training cost", ja:"教育コスト", uses:"Training cost rose due to new hires. / Standardize onboarding."},
+      {en:"consistency", ja:"一貫性", uses:"Consistency impacts guest experience. / SOPs support consistency."},
+      {en:"indicator", ja:"指標", uses:"Absence and overtime can be indicators. / Monitor indicators."},
+      {en:"retention", ja:"定着", uses:"Retention improves stability. / Focus on retention actions."}
+    ]
+  },
+  {
+    title:"Budget Cuts: Avoiding Short-Term Fixes That Hurt Long-Term",
+    guide:"短期合わせ（常習化）のリスクを説明する。",
+    prompts:[
+      "What happens if we cut budgets repeatedly just to hit GOP targets?",
+      "Which cuts create long-term operational damage?",
+      "How do you propose smarter alternatives to budget cuts?",
+      "How do you communicate this risk to stakeholders?"
+    ],
+    keywords:[
+      {en:"short-term fix", ja:"短期合わせ", uses:"Short-term fixes can create long-term damage. / Avoid repeated quick cuts."},
+      {en:"operational damage", ja:"運用ダメージ", uses:"Damage shows up as quality decline. / Hidden costs appear later."},
+      {en:"alternative", ja:"代替案", uses:"Propose alternatives with quantified impact. / Use scenarios."},
+      {en:"sustainability", ja:"持続性", uses:"Sustainable actions are better. / Avoid one-off tricks."},
+      {en:"stakeholder", ja:"関係者", uses:"Explain risks to stakeholders. / Use simple examples."}
+    ]
+  },
+  {
+    title:"USALI Compliance: Keeping Definitions Consistent Over Time",
+    guide:"定義のブレを防ぐ運用を話す。",
+    prompts:[
+      "How do you keep USALI definitions consistent across time and teams?",
+      "What change log rules prevent confusion?",
+      "How do you handle version control for templates?",
+      "What is your simplest training method for new members?"
+    ],
+    keywords:[
+      {en:"consistency", ja:"一貫性", uses:"Consistency enables comparability. / Keep definitions stable."},
+      {en:"change log", ja:"変更ログ", uses:"Log all changes with dates. / Change logs prevent confusion."},
+      {en:"version control", ja:"版管理", uses:"Use clear naming and timestamps. / Avoid outdated files."},
+      {en:"template", ja:"テンプレ", uses:"Templates standardize reporting. / Templates reduce errors."},
+      {en:"training", ja:"教育", uses:"Training should be simple. / Use examples and short guides."}
+    ]
+  },
+  {
+    title:"Executive Summary: 3 Bullets + Risks + Actions",
+    guide:"経営層向けに短くまとめる。",
+    prompts:[
+      "What are your top three bullets for this month’s performance?",
+      "What are the biggest risks for next month?",
+      "What actions are already in motion?",
+      "What decision do you need from leadership?"
+    ],
+    keywords:[
+      {en:"top three", ja:"3点", uses:"Top three messages should be clear. / Avoid extra details."},
+      {en:"risk", ja:"リスク", uses:"Identify risks early. / Use triggers and indicators."},
+      {en:"in motion", ja:"進行中", uses:"Actions are already in motion. / Provide owners and timelines."},
+      {en:"decision", ja:"意思決定", uses:"We need a decision on pricing. / Clarify decision owner."},
+      {en:"leadership", ja:"経営", uses:"Leadership needs clarity. / Keep it concise."}
+    ]
+  },
+  {
+    title:"Fusion/International Meeting: Clear Update and Alignment",
+    guide:"国際会議で簡潔にアップデートし、合意を取る。",
+    prompts:[
+      "What is your concise update for this week’s performance?",
+      "What support do you need from the international team?",
+      "What decisions must be made this week and by whom?",
+      "What are the next steps and deadlines?"
+    ],
+    keywords:[
+      {en:"concise update", ja:"簡潔報告", uses:"Here is a concise update. / Keep it short and clear."},
+      {en:"support", ja:"支援", uses:"We need support on data access. / Support will speed execution."},
+      {en:"decision owner", ja:"決定者", uses:"Clarify the decision owner. / Owners prevent delays."},
+      {en:"next steps", ja:"次", uses:"Confirm next steps and owners. / Track next steps."},
+      {en:"deadline", ja:"締切", uses:"Deadline is Friday. / Deadline discipline matters."}
+    ]
+  }
+];
+
+// Ensure exactly 40 topics (safety check)
+if (TOPICS.length !== 40){
+  console.warn("TOPICS length is not 40:", TOPICS.length);
+}
+
+/* =========================
+   Storage Keys
+   ========================= */
+const KEY_PREFIX = "usali_speakup_";
+const keyUsed = (dateKey) => KEY_PREFIX + "used_" + dateKey;
+const keyManualMode = () => KEY_PREFIX + "mode"; // "auto" | "manual"
+const keyManualTopic = (dateKey) => KEY_PREFIX + "manualTopic_" + dateKey; // per day lock
+const keyHistory = () => KEY_PREFIX + "history";
+const keyNotes = (dateKey) => KEY_PREFIX + "notes_" + dateKey;
+
+/* =========================
+   Utils
+   ========================= */
+function pad2(n){ return String(n).padStart(2,"0"); }
+function todayKey(){
+  const d = new Date();
+  return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+}
 function toast(msg){
   const el = document.getElementById("toast");
   el.textContent = msg;
   el.classList.add("show");
-  setTimeout(()=>el.classList.remove("show"), 1200);
+  setTimeout(()=>el.classList.remove("show"), 1400);
+}
+function safeJsonParse(s, fallback){
+  try{ return JSON.parse(s); }catch(_){ return fallback; }
 }
 
-/* ===== Dimension-like modal control ===== */
-let openModalId = null;
-
-function openModal(id){
-  const m = document.getElementById(id);
-  if(!m) return;
-  closeModal(); // close any existing
-  openModalId = id;
-  document.body.classList.add("isModalOpen");
-  m.classList.add("open");
-  m.setAttribute("aria-hidden","false");
+/* =========================
+   Topic selection
+   ========================= */
+function topicIndexForDate(dateObj){
+  const y = dateObj.getFullYear();
+  const m = dateObj.getMonth()+1;
+  const d = dateObj.getDate();
+  const seed = Number(String(y) + pad2(m) + pad2(d));
+  return seed % TOPICS.length;
 }
-function closeModal(){
-  if(!openModalId) return;
-  const m = document.getElementById(openModalId);
-  if(m){
-    m.classList.remove("open");
-    m.setAttribute("aria-hidden","true");
+function autoTopicIndex(){
+  return topicIndexForDate(new Date());
+}
+function mode(){
+  const v = localStorage.getItem(keyManualMode());
+  return (v === "manual") ? "manual" : "auto";
+}
+function setMode(v){
+  localStorage.setItem(keyManualMode(), v === "manual" ? "manual" : "auto");
+}
+function getManualTopicIndex(){
+  const v = localStorage.getItem(keyManualTopic(todayKey()));
+  if (v === null || v === undefined) return null;
+  const n = Number(v);
+  if (!Number.isFinite(n)) return null;
+  if (n < 0 || n >= TOPICS.length) return null;
+  return n;
+}
+function setManualTopicIndex(idx){
+  localStorage.setItem(keyManualTopic(todayKey()), String(idx));
+}
+function currentTopicIndex(){
+  if (mode() === "manual"){
+    const m = getManualTopicIndex();
+    return (m === null) ? autoTopicIndex() : m;
   }
-  openModalId = null;
-  document.body.classList.remove("isModalOpen");
+  return autoTopicIndex();
 }
 
-/* Close by clicking background */
-document.querySelectorAll(".modal").forEach(m=>{
-  m.addEventListener("click",(e)=>{
-    if(e.target === m) closeModal();
-  });
-});
+/* =========================
+   Used status & history
+   ========================= */
+function isUsedToday(){
+  return localStorage.getItem(keyUsed(todayKey())) === "1";
+}
+function markUsedToday(){
+  localStorage.setItem(keyUsed(todayKey()), "1");
+}
+function addHistoryEntry(){
+  const idx = currentTopicIndex();
+  const t = TOPICS[idx];
+  const raw = localStorage.getItem(keyHistory());
+  const list = raw ? safeJsonParse(raw, []) : [];
+  list.unshift({ date: todayKey(), topicNo: idx+1, title: t.title });
+  if (list.length > 20) list.length = 20;
+  localStorage.setItem(keyHistory(), JSON.stringify(list));
+}
+function getHistoryText(){
+  const raw = localStorage.getItem(keyHistory());
+  const list = raw ? safeJsonParse(raw, []) : [];
+  if (!list.length) return "No history yet.";
+  return list.map(x => `- ${x.date} / Topic ${x.topicNo} / ${x.title}`).join("\n");
+}
 
-/* Close buttons */
-document.querySelectorAll("[data-close]").forEach(btn=>{
-  btn.addEventListener("click", closeModal);
-});
-
-/* ESC to close */
-window.addEventListener("keydown",(e)=>{
-  if(e.key === "Escape") closeModal();
-});
-
-/* Open buttons */
-document.querySelectorAll("[data-open]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const v = btn.getAttribute("data-open");
-    openModal("modal-" + v);
-  });
-});
-
-/* ===== (Dummy) Prompt builder ===== */
-const DUMMY_TOPIC = {
-  title: "USALI: Rooms Revenue vs ADR & OCC",
-  prompts: [
-    "How do you explain rooms revenue variance using ADR and occupancy?",
-    "Which costs move with volume and impact flow-through?",
-    "What is one action to protect rate integrity this month?",
-    "What data checks do you run before reporting?"
-  ],
-  keywords: ["USALI", "ADR", "Occupancy", "Flow-through", "CPOR", "Rate integrity"]
-};
-
-function buildPrompt(){
-  const t = DUMMY_TOPIC;
+/* =========================
+   Prompt build
+   ========================= */
+function buildPrompt(idx){
+  const t = TOPICS[idx];
   const lines = [];
   lines.push("Let's practice English speaking.");
   lines.push("");
   lines.push("Today's topic: " + t.title);
   lines.push("");
+  lines.push("Guide: " + t.guide);
+  lines.push("");
   lines.push("Rules: Ask me the questions one by one. After each answer, correct my English briefly and suggest a more natural alternative.");
   lines.push("");
   lines.push("Questions:");
-  t.prompts.forEach((q,i)=>lines.push((i+1)+") "+q));
+  t.prompts.forEach((q,i)=> lines.push((i+1)+") "+q));
   lines.push("");
-  lines.push("Keywords to try using: " + t.keywords.join(", "));
+  lines.push("Keywords to try using: " + t.keywords.map(k=>k.en).join(", "));
   lines.push("");
   lines.push("Start with question 1.");
   return lines.join("\n");
 }
 
-function renderPractice(){
-  const prompt = buildPrompt();
-  document.getElementById("practiceText").textContent = prompt;
-}
-
-function openChatGPTWithPrompt(prompt){
+/* =========================
+   Open ChatGPT
+   ========================= */
+function openChatGPT(prompt){
   const url = "https://chatgpt.com/?prompt=" + encodeURIComponent(prompt);
-  window.open(url, "_blank");
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
-/* Hook: when practice modal opens, render */
-const practiceModal = document.getElementById("modal-practice");
-const observer = new MutationObserver(()=> {
-  if(practiceModal.classList.contains("open")){
-    renderPractice();
-  }
-});
-observer.observe(practiceModal, { attributes:true, attributeFilter:["class"] });
+/* =========================
+   Notes (per day)
+   ========================= */
+function loadNotes(){
+  const v = localStorage.getItem(keyNotes(todayKey()));
+  document.getElementById("notesArea").value = v || "";
+}
+function saveNotes(){
+  const text = document.getElementById("notesArea").value || "";
+  localStorage.setItem(keyNotes(todayKey()), text);
+}
+function appendKeywordToNotes(k){
+  const ta = document.getElementById("notesArea");
+  const block =
+`- ${k.en} = ${k.ja}
+uses: ${k.uses}
 
-/* Buttons */
-document.getElementById("openChatBtn").addEventListener("click", ()=>{
-  const p = buildPrompt();
-  openChatGPTWithPrompt(p);
-  toast("ChatGPTを開きました");
-});
-document.getElementById("copyPromptBtn").addEventListener("click", async ()=>{
-  const p = buildPrompt();
-  try{
-    if(navigator.clipboard?.writeText){
-      await navigator.clipboard.writeText(p);
-      toast("コピーしました");
-    }else{
-      throw new Error("clipboard unavailable");
+`;
+  ta.value = (ta.value || "") + block;
+  saveNotes();
+  toast("Added to Notes");
+}
+
+/* =========================
+   Render START
+   ========================= */
+function initTopicSelect(){
+  const sel = document.getElementById("topicSelect");
+  sel.innerHTML = "";
+  TOPICS.forEach((t, i) => {
+    const opt = document.createElement("option");
+    opt.value = String(i);
+    opt.textContent = `Topic ${i+1}: ${t.title}`;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener("change", () => {
+    const idx = Number(sel.value);
+    if (Number.isFinite(idx) && idx >= 0 && idx < TOPICS.length){
+      setManualTopicIndex(idx);
+      renderStart();
+      toast("Topic locked for today");
     }
-  }catch(_){
-    // fallback
-    const ta = document.createElement("textarea");
-    ta.value = p;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    toast("コピーしました");
-  }
+  });
+}
+
+function renderModeUI(){
+  const m = mode();
+  document.getElementById("modeText").textContent = m === "manual" ? "Manual (Locked)" : "Auto (Daily)";
+  document.getElementById("manualPill").style.display = (m === "manual") ? "" : "none";
+}
+
+function renderStart(){
+  const idx = currentTopicIndex();
+  const t = TOPICS[idx];
+
+  document.getElementById("statusText").textContent = isUsedToday() ? "Used" : "Not used";
+  document.getElementById("dateText").textContent = todayKey();
+  document.getElementById("topicNoText").textContent = `Topic ${idx+1}`;
+
+  renderModeUI();
+
+  // Select reflect
+  const sel = document.getElementById("topicSelect");
+  if (sel && sel.value !== String(idx)) sel.value = String(idx);
+
+  // Prompt
+  const prompt = buildPrompt(idx);
+  document.getElementById("promptBox").textContent = prompt;
+
+  // Keywords
+  const kwWrap = document.getElementById("kwTags");
+  kwWrap.innerHTML = "";
+  t.keywords.forEach(k => {
+    const b = document.createElement("button");
+    b.className = "tag";
+    b.type = "button";
+    b.innerHTML = `${k.en} <small>= ${k.ja}</small>`;
+    b.addEventListener("click", ()=>appendKeywordToNotes(k));
+    kwWrap.appendChild(b);
+  });
+
+  // Notes (load daily)
+  loadNotes();
+}
+
+/* =========================
+   Render HISTORY
+   ========================= */
+function renderHistory(){
+  document.getElementById("historyBox").textContent = getHistoryText();
+}
+
+/* =========================
+   Modal control
+   ========================= */
+function openOverlay(id){
+  const ov = document.getElementById(id);
+  ov.classList.add("open");
+  ov.setAttribute("aria-hidden","false");
+}
+function closeOverlay(id){
+  const ov = document.getElementById(id);
+  ov.classList.remove("open");
+  ov.setAttribute("aria-hidden","true");
+}
+function closeAll(){
+  ["ovStart","ovHistory","ovSettings"].forEach(closeOverlay);
+}
+
+/* =========================
+   Midnight refresh (topic rotates)
+   ========================= */
+function scheduleMidnightRefresh(){
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(24,0,1,0);
+  const ms = next.getTime() - now.getTime();
+  setTimeout(() => {
+    // reset daily lock automatically (since key is date-based, it naturally changes)
+    renderStart();
+    toast("New day: topic updated");
+    scheduleMidnightRefresh();
+  }, ms);
+}
+
+/* =========================
+   Clipboard helper
+   ========================= */
+async function copyText(text){
+  try{
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  }catch(_){}
+  return false;
+}
+
+/* =========================
+   Init
+   ========================= */
+window.addEventListener("load", () => {
+  // Safety: if mode not set, default auto
+  if (!localStorage.getItem(keyManualMode())) setMode("auto");
+
+  initTopicSelect();
+  renderStart();
+  scheduleMidnightRefresh();
+
+  // Home buttons
+  document.getElementById("btnStart").addEventListener("click", () => {
+    renderStart();
+    openOverlay("ovStart");
+  });
+  document.getElementById("btnHistory").addEventListener("click", () => {
+    renderHistory();
+    openOverlay("ovHistory");
+  });
+  document.getElementById("btnSettings").addEventListener("click", () => {
+    renderModeUI();
+    openOverlay("ovSettings");
+  });
+
+  // Close buttons
+  document.querySelectorAll("[data-close]").forEach(btn=>{
+    btn.addEventListener("click", ()=> closeOverlay(btn.getAttribute("data-close")));
+  });
+  // Click outside modal closes
+  document.querySelectorAll(".overlay").forEach(ov=>{
+    ov.addEventListener("click", (e)=>{
+      if (e.target === ov) closeOverlay(ov.id);
+    });
+  });
+  // ESC closes
+  window.addEventListener("keydown",(e)=>{
+    if (e.key === "Escape") closeAll();
+  });
+
+  // START actions
+  document.getElementById("openChatBtn").addEventListener("click", () => {
+    const idx = currentTopicIndex();
+    const prompt = buildPrompt(idx);
+    openChatGPT(prompt);
+    markUsedToday();
+    addHistoryEntry();
+    renderStart();
+    toast("Opened ChatGPT");
+  });
+
+  document.getElementById("copyPromptBtn").addEventListener("click", async () => {
+    const idx = currentTopicIndex();
+    const text = buildPrompt(idx);
+    const ok = await copyText(text);
+    if (ok) toast("Prompt copied");
+    else {
+      // fallback
+      const tmp = document.createElement("textarea");
+      tmp.value = text;
+      document.body.appendChild(tmp);
+      tmp.select();
+      document.execCommand("copy");
+      document.body.removeChild(tmp);
+      toast("Prompt copied");
+    }
+  });
+
+  document.getElementById("markUsedBtn").addEventListener("click", () => {
+    markUsedToday();
+    addHistoryEntry();
+    renderStart();
+    toast("Marked as used + saved to history");
+  });
+
+  document.getElementById("notesArea").addEventListener("input", saveNotes);
+
+  document.getElementById("copyNotesBtn").addEventListener("click", async () => {
+    const text = document.getElementById("notesArea").value || "";
+    const ok = await copyText(text);
+    if (ok) toast("Notes copied");
+    else {
+      const ta = document.getElementById("notesArea");
+      ta.focus(); ta.select();
+      document.execCommand("copy");
+      ta.setSelectionRange(0,0);
+      toast("Notes copied");
+    }
+  });
+  document.getElementById("clearNotesBtn").addEventListener("click", () => {
+    document.getElementById("notesArea").value = "";
+    saveNotes();
+    toast("Notes cleared");
+  });
+
+  // HISTORY actions
+  document.getElementById("copyHistoryBtn").addEventListener("click", async () => {
+    const text = getHistoryText();
+    const ok = await copyText(text);
+    if (ok) toast("History copied");
+    else {
+      const tmp = document.createElement("textarea");
+      tmp.value = text;
+      document.body.appendChild(tmp);
+      tmp.select();
+      document.execCommand("copy");
+      document.body.removeChild(tmp);
+      toast("History copied");
+    }
+  });
+  document.getElementById("clearHistoryBtn").addEventListener("click", () => {
+    if (!confirm("Clear history?")) return;
+    localStorage.removeItem(keyHistory());
+    renderHistory();
+    toast("History cleared");
+  });
+
+  // SETTINGS actions
+  document.getElementById("modeAutoBtn").addEventListener("click", () => {
+    setMode("auto");
+    renderModeUI();
+    renderStart();
+    toast("Mode: Auto");
+  });
+  document.getElementById("modeManualBtn").addEventListener("click", () => {
+    setMode("manual");
+    // default lock to current auto topic if no lock yet
+    const cur = getManualTopicIndex();
+    if (cur === null) setManualTopicIndex(autoTopicIndex());
+    renderModeUI();
+    renderStart();
+    toast("Mode: Manual (locked for today)");
+  });
+
+  document.getElementById("resetAllBtn").addEventListener("click", () => {
+    if (!confirm("Reset ALL data (notes/status/history/mode)?")) return;
+    const keys = [];
+    for (let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if (k && k.startsWith(KEY_PREFIX)) keys.push(k);
+    }
+    keys.forEach(k => localStorage.removeItem(k));
+    // restore default mode
+    setMode("auto");
+    initTopicSelect();
+    renderStart();
+    renderHistory();
+    renderModeUI();
+    toast("Reset done");
+  });
 });
 </script>
 </body>
